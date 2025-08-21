@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ແອັບຄິດໄລ່ລາຍຮັບລາຍຈ່າຍ</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -18,11 +16,13 @@
             font-family: 'Noto Sans Lao', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
             background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            animation: gradientShift 8s ease infinite;
             min-height: 100vh;
+            width: 100vw;
             max-width: 414px;
             margin: 0 auto;
             overflow-x: hidden;
+            position: relative;
         }
 
         @keyframes gradientShift {
@@ -31,814 +31,1019 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Splash Screen */
         .splash-screen {
             position: fixed;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
             width: 100%;
-            max-width: 414px;
-            height: 100vh;
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
-            background-size: 400% 400%;
-            animation: gradientShift 3s ease infinite;
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #1abc9c);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             z-index: 9999;
-            opacity: 1;
-            transition: opacity 0.5s ease-out;
+            animation: fadeOut 3s ease-out forwards;
         }
 
-        .splash-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
+        @keyframes fadeOut {
+            0%, 70% { opacity: 1; }
+            100% { opacity: 0; pointer-events: none; }
         }
 
         .splash-logo {
-            font-size: 4em;
-            animation: bounce 2s infinite, rotate 3s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        .splash-text {
+            font-size: 2.5rem;
+            font-weight: 700;
             color: white;
-            font-size: 1.5em;
-            font-weight: 600;
-            text-align: center;
-            animation: slideInUp 1s ease-out;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: bounce 2s ease-in-out infinite;
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(0deg); }
-            40% { transform: translateY(-30px) rotate(180deg); }
-            60% { transform: translateY(-15px) rotate(270deg); }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            padding: 0;
+            position: relative;
+            animation: slideIn 1s ease-out 3s both;
         }
 
-        @keyframes slideInUp {
+        @keyframes slideIn {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Navigation */
-        .nav-container {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 414px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-tabs {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 5px;
-            border-radius: 0 0 20px 20px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 8px 4px;
-            text-align: center;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            font-family: 'Noto Sans Lao', sans-serif;
-            font-size: 0.7em;
-            font-weight: 500;
-            margin: 0 2px;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tab:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.5);
-        }
-
-        .tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .tab:hover::before {
-            left: 100%;
-        }
-
-        /* Content */
-        .content {
-            padding: 80px 15px 20px;
-            min-height: 100vh;
-        }
-
-        .page {
-            display: none;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* Home Page */
-        .home-content {
-            background: rgba(255, 255, 255, 0.95);
+        .login-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 25px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .date-selector {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .date-input {
-            padding: 10px;
-            border: 2px solid #e0e6ed;
-            border-radius: 15px;
-            font-family: 'Noto Sans Lao', sans-serif;
-            background: rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
-        }
-
-        .date-input:focus {
-            border-color: #667eea;
-            outline: none;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
-        }
-
-        .status-display {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .emoji-display {
-            font-size: 4em;
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .details {
-            flex: 1;
-        }
-
-        .detail-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 10px;
-        }
-
-        .amount {
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-
-        .income { color: #27ae60; }
-        .expense { color: #e74c3c; }
-
-        .status-message {
+            padding: 40px 30px;
+            margin: 50px 20px;
             text-align: center;
-            padding: 15px;
-            border-radius: 15px;
-            font-weight: 600;
-            font-size: 1.1em;
-            animation: pulse 2s infinite;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
-        .status-message.positive {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
             color: white;
-        }
-
-        .status-message.negative {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        /* Form styles */
-        .form-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 25px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .form-group {
             margin-bottom: 20px;
+            text-align: left;
         }
 
-        .form-label {
+        .form-group label {
             display: block;
+            color: white;
+            font-weight: 500;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
+            font-size: 1rem;
         }
 
-        .form-input {
+        .form-group input {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e6ed;
-            border-radius: 15px;
-            font-family: 'Noto Sans Lao', sans-serif;
-            font-size: 1em;
-            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
 
-        .form-input:focus {
-            border-color: #667eea;
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group input:focus {
             outline: none;
-            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
             color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 15px;
-            font-family: 'Noto Sans Lao', sans-serif;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 157, 0.4);
         }
 
-        .btn-primary:active {
-            transform: translateY(-1px);
-        }
-
-        /* Floating Add Button */
-        .floating-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 50%;
-            transform: translateX(calc(50% - 25px));
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            border: none;
-            border-radius: 50%;
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            font-size: 1.5em;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-navigation {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 10px;
+            z-index: 1000;
+            width: 90%;
+            max-width: 380px;
+            justify-content: space-between;
+        }
+
+        .tab-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 500;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 999;
-            animation: floatBtn 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.1;
         }
 
-        @keyframes floatBtn {
-            0%, 100% { transform: translateX(calc(50% - 25px)) translateY(0px); }
-            50% { transform: translateX(calc(50% - 25px)) translateY(-5px); }
+        .tab-btn.active {
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
         }
 
-        .floating-btn:hover {
-            transform: translateX(calc(50% - 25px)) scale(1.1);
-            box-shadow: 0 12px 35px rgba(240, 147, 251, 0.6);
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
-        /* Item List */
-        .item-list {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 25px;
+        .content-area {
+            margin-top: 100px;
             padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 120px);
         }
 
-        .list-item {
+        .content-panel {
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .content-panel.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-dashboard {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .date-selector {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .date-selector input {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 15px;
+            padding: 10px 20px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .cat-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .cat-emoji {
+            font-size: 4rem;
+            animation: catBounce 3s ease-in-out infinite;
+        }
+
+        @keyframes catBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(-2deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-3px) rotate(2deg); }
+        }
+
+        .summary-info {
+            flex: 1;
+        }
+
+        .summary-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: rgba(102, 126, 234, 0.1);
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .summary-label {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .summary-amount {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .status-alert {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .status-alert.success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+            border: 2px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .status-alert.warning {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 2px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .expense-page {
+            background: rgba(255, 107, 157, 0.15);
+        }
+
+        .income-page {
+            background: rgba(46, 204, 113, 0.15);
+        }
+
+        .special-income-page {
+            background: rgba(155, 89, 182, 0.15);
+        }
+
+        .monthly-page {
+            background: rgba(52, 152, 219, 0.15);
+        }
+
+        .savings-page {
+            background: rgba(241, 196, 15, 0.15);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .date-search {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .date-search input {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 15px;
+            padding: 10px 15px;
+            color: white;
+            font-size: 0.9rem;
+            flex: 1;
+        }
+
+        .btn-search {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 15px;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
             transition: all 0.3s ease;
-            animation: slideInRight 0.5s ease-out;
         }
 
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
+        .btn-search:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
-        .list-item:hover {
-            background: rgba(102, 126, 234, 0.2);
-            transform: translateX(5px);
+        .floating-add-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+            transition: all 0.3s ease;
+            z-index: 999;
         }
 
-        .item-details {
+        .floating-add-btn.hidden-btn {
+            display: none;
+        }
+
+        .floating-add-btn:hover {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 15px 30px rgba(255, 107, 157, 0.6);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            width: 90%;
+            max-width: 350px;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal .form-group input {
+            background: rgba(0, 0, 0, 0.05);
+            color: #333;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .modal .form-group input::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal .btn {
+            color: white;
+            margin-top: 10px;
+        }
+
+        .btn-close {
+            background: rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        .item-list {
+            margin-top: 20px;
+        }
+
+        .item-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .item-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .item-info {
             flex: 1;
         }
 
         .item-name {
             font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
             margin-bottom: 5px;
         }
 
         .item-date {
-            font-size: 0.9em;
-            color: #7f8c8d;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .item-amount {
-            font-weight: 600;
-            font-size: 1.2em;
-        }
-
-        .delete-btn {
-            background: #e74c3c;
+            font-weight: 700;
+            font-size: 1.2rem;
             color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: all 0.3s ease;
         }
 
-        .delete-btn:hover {
-            background: #c0392b;
-            transform: scale(1.1);
-        }
-
-        /* Summary Page */
         .summary-table {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 25px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
             margin-top: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .table-row {
+            display: flex;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        th, td {
-            padding: 12px 8px;
-            text-align: left;
-            border-bottom: 1px solid #e0e6ed;
-            font-size: 0.9em;
+        .table-row:last-child {
+            border-bottom: none;
         }
 
-        th {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .table-header {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: 700;
+        }
+
+        .table-cell {
+            flex: 1;
             color: white;
-            font-weight: 600;
-            border-radius: 10px 10px 0 0;
+            text-align: center;
         }
 
         .export-btn {
-            margin-top: 15px;
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            margin-top: 20px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 414px;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border-radius: 25px;
-            padding: 30px;
-            width: 90%;
-            max-width: 350px;
-            animation: modalSlide 0.3s ease-out;
-        }
-
-        @keyframes modalSlide {
-            from { opacity: 0; transform: translate(-50%, -60%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .search-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            align-items: end;
-        }
-
-        .search-btn {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-family: 'Noto Sans Lao', sans-serif;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .search-btn:hover {
+        .export-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.4);
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 414px) {
-            .tab {
-                font-size: 0.6em;
-                padding: 6px 2px;
-            }
-            
-            .content {
-                padding: 75px 10px 20px;
-            }
-            
-            .emoji-display {
-                font-size: 3em;
-            }
-            
-            .status-display {
-                flex-direction: column;
-                text-align: center;
-            }
+        .hidden {
+            display: none !important;
+        }
+
+        .form-group input[type="date"] {
+            color-scheme: dark;
         }
     </style>
 </head>
 <body>
     <!-- Splash Screen -->
-    <div class="splash-screen" id="splashScreen">
-        <div class="splash-logo">💰</div>
-        <div class="splash-text">ແອັບຄິດໄລ່ລາຍຮັບລາຍຈ່າຍ</div>
+    <div class="splash-screen">
+        <div class="splash-logo">💰 ການເງິນ</div>
+        <div style="color: white; margin-top: 20px; font-size: 1.2rem;">ແອັບຄິດໄລ່ລາຍຮັບລາຍຈ່າຍ</div>
     </div>
 
-    <!-- Navigation -->
-    <div class="nav-container">
-        <div class="nav-tabs">
-            <button class="tab active" data-page="home">ໜ້າຫຼັກ</button>
-            <button class="tab" data-page="expenses">ລາຍຈ່າຍ</button>
-            <button class="tab" data-page="income">ລາຍຮັບ</button>
-            <button class="tab" data-page="special">ພິເສດ</button>
-            <button class="tab" data-page="summary">ສະຫຼຸບ</button>
+    <!-- Login Container -->
+    <div id="loginContainer" class="container">
+        <div class="login-container">
+            <h1 class="login-title">ເຂົ້າສູ່ລະບົບ</h1>
+            <div id="loginForm">
+                <div class="form-group">
+                    <label>Gmail:</label>
+                    <input type="email" id="loginEmail" placeholder="ໃສ່ Gmail ຂອງທ່ານ">
+                </div>
+                <div class="form-group">
+                    <label>ລະຫັດຜ່ານ:</label>
+                    <input type="password" id="loginPassword" placeholder="ໃສ່ລະຫັດຜ່ານ">
+                </div>
+                <button class="btn btn-primary" onclick="login()">ເຂົ້າສູ່ລະບົບ</button>
+                <button class="btn btn-secondary" onclick="showRegister()">ລົງທະບຽນ</button>
+            </div>
+            <div id="registerForm" class="hidden">
+                <div class="form-group">
+                    <label>Gmail:</label>
+                    <input type="email" id="regEmail" placeholder="ໃສ່ Gmail ຂອງທ່ານ">
+                </div>
+                <div class="form-group">
+                    <label>ລະຫັດຜ່ານ:</label>
+                    <input type="password" id="regPassword" placeholder="ສ້າງລະຫັດຜ່ານ">
+                </div>
+                <div class="form-group">
+                    <label>ຢືນຢັນລະຫັດຜ່ານ:</label>
+                    <input type="password" id="regConfirmPassword" placeholder="ຢືນຢັນລະຫັດຜ່ານ">
+                </div>
+                <button class="btn btn-secondary" onclick="requestOTP()">ຂໍ OTP</button>
+                <div class="form-group hidden" id="otpGroup">
+                    <label>OTP:</label>
+                    <input type="text" id="otpCode" placeholder="ໃສ່ລະຫັດ OTP">
+                </div>
+                <button class="btn btn-primary hidden" id="registerBtn" onclick="register()">ລົງທະບຽນ</button>
+                <button class="btn btn-secondary" onclick="showLogin()">ກັບໄປເຂົ້າສູ່ລະບົບ</button>
+            </div>
         </div>
     </div>
 
-    <!-- Content -->
-    <div class="content">
-        <!-- Home Page -->
-        <div class="page active" id="home">
-            <div class="home-content">
-                <div class="date-selector">
-                    <label class="form-label">ເລືອກວັນທີ:</label>
-                    <input type="date" class="date-input" id="homeDate">
-                </div>
-                
-                <div class="status-display">
-                    <div class="emoji-display" id="statusEmoji">😊</div>
-                    <div class="details">
-                        <div class="detail-item">
-                            <span>ລາຍຮັບ:</span>
-                            <span class="amount income" id="totalIncome">0 ກີບ</span>
+    <!-- Main App Container -->
+    <div id="appContainer" class="container hidden">
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="main">ໜ້າ<br>ຫຼັກ</button>
+            <button class="tab-btn" data-tab="expenses">ລາຍ<br>ຈ່າຍ</button>
+            <button class="tab-btn" data-tab="income">ລາຍ<br>ຮັບ</button>
+            <button class="tab-btn" data-tab="special">ພິ<br>ເສດ</button>
+            <button class="tab-btn" data-tab="monthly">ສະຫຼຸບ<br>ເດືອນ</button>
+            <button class="tab-btn" data-tab="savings">ເງິນ<br>ເກັບ</button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Main Dashboard -->
+            <div id="mainPanel" class="content-panel active">
+                <div class="main-dashboard">
+                    <div class="date-selector">
+                        <input type="date" id="mainDate" value="">
+                    </div>
+                    <div class="cat-container">
+                        <div class="cat-emoji" id="catEmoji">🐱</div>
+                        <div class="summary-info">
+                            <div class="summary-item">
+                                <span class="summary-label">ລາຍຮັບ:</span>
+                                <span class="summary-amount" id="totalIncome">0 ກີບ</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">ລາຍຈ່າຍ:</span>
+                                <span class="summary-amount" id="totalExpenses">0 ກີບ</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">ຍັງເຫຼືອ:</span>
+                                <span class="summary-amount" id="remaining">0 ກີບ</span>
+                            </div>
                         </div>
-                        <div class="detail-item">
-                            <span>ລາຍຈ່າຍ:</span>
-                            <span class="amount expense" id="totalExpenses">0 ກີບ</span>
+                    </div>
+                    <div id="statusAlert" class="status-alert success">
+                        <span id="statusEmoji">😊</span> <span id="statusText">ເຮັດໄດ້ດີ!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expenses Panel -->
+            <div id="expensesPanel" class="content-panel expense-page">
+                <div class="main-dashboard">
+                    <div class="page-header">
+                        <div class="date-search">
+                            <input type="date" id="expenseSearchDate">
+                            <button class="btn-search" onclick="searchExpenses()">ຄົ້ນຫາ</button>
                         </div>
                     </div>
+                    <div id="expensesList" class="item-list">
+                        <!-- Expense items will be populated here -->
+                    </div>
                 </div>
-                
-                <div class="status-message positive" id="statusMessage">ເຮັດໄດ້ດີ! 😊</div>
+            </div>
+
+            <!-- Income Panel -->
+            <div id="incomePanel" class="content-panel income-page">
+                <div class="main-dashboard">
+                    <div class="page-header">
+                        <div class="date-search">
+                            <input type="date" id="incomeSearchDate">
+                            <button class="btn-search" onclick="searchIncome()">ຄົ້ນຫາ</button>
+                        </div>
+                    </div>
+                    <div id="incomeList" class="item-list">
+                        <!-- Income items will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special Income Panel -->
+            <div id="specialPanel" class="content-panel special-income-page">
+                <div class="main-dashboard">
+                    <div class="page-header">
+                        <div class="date-search">
+                            <input type="date" id="specialSearchDate">
+                            <button class="btn-search" onclick="searchSpecial()">ຄົ້ນຫາ</button>
+                        </div>
+                    </div>
+                    <div id="specialList" class="item-list">
+                        <!-- Special income items will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Summary Panel -->
+            <div id="monthlyPanel" class="content-panel monthly-page">
+                <div class="main-dashboard">
+                    <div class="page-header">
+                        <div class="date-search">
+                            <input type="month" id="monthlySearchDate">
+                            <button class="btn-search" onclick="searchMonthly()">ຄົ້ນຫາ</button>
+                        </div>
+                    </div>
+                    <div id="monthlySummary" class="summary-table hidden">
+                        <div class="table-row table-header">
+                            <div class="table-cell">ປະເພດ</div>
+                            <div class="table-cell">ຈຳນວນ</div>
+                            <div class="table-cell">ເງິນ</div>
+                        </div>
+                        <div id="monthlyData"></div>
+                    </div>
+                    <button class="btn export-btn hidden" id="exportBtn" onclick="exportData()">Export ຂໍ້ມູນ</button>
+                </div>
+            </div>
+
+            <!-- Savings Panel -->
+            <div id="savingsPanel" class="content-panel savings-page">
+                <div class="main-dashboard">
+                    <div class="page-header">
+                        <div class="date-search">
+                            <input type="date" id="savingsSearchDate">
+                            <button class="btn-search" onclick="searchSavings()">ຄົ້ນຫາ</button>
+                        </div>
+                    </div>
+                    <div id="savingsList" class="item-list">
+                        <!-- Savings items will be populated here -->
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Expenses Page -->
-        <div class="page" id="expenses">
-            <div class="form-container">
-                <div class="search-container">
-                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                        <label class="form-label">ເລືອກວັນທີ:</label>
-                        <input type="date" class="form-input" id="expenseSearchDate">
-                    </div>
-                    <button class="search-btn" onclick="searchExpenses()">ຄົ້ນຫາ</button>
-                </div>
-                
-                <div class="item-list" id="expenseList">
-                    <!-- Expense items will be displayed here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Income Page -->
-        <div class="page" id="income">
-            <div class="form-container">
-                <div class="search-container">
-                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                        <label class="form-label">ເລືອກວັນທີ:</label>
-                        <input type="date" class="form-input" id="incomeSearchDate">
-                    </div>
-                    <button class="search-btn" onclick="searchIncome()">ຄົ້ນຫາ</button>
-                </div>
-                
-                <div class="item-list" id="incomeList">
-                    <!-- Income items will be displayed here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Special Income Page -->
-        <div class="page" id="special">
-            <div class="form-container">
-                <div class="search-container">
-                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                        <label class="form-label">ເລືອກວັນທີ:</label>
-                        <input type="date" class="form-input" id="specialSearchDate">
-                    </div>
-                    <button class="search-btn" onclick="searchSpecial()">ຄົ້ນຫາ</button>
-                </div>
-                
-                <div class="item-list" id="specialList">
-                    <!-- Special income items will be displayed here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Summary Page -->
-        <div class="page" id="summary">
-            <div class="form-container">
-                <div class="search-container">
-                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                        <label class="form-label">ເລືອກເດືອນ:</label>
-                        <input type="month" class="form-input" id="summaryMonth">
-                    </div>
-                    <button class="search-btn" onclick="generateSummary()">ຄົ້ນຫາ</button>
-                </div>
-                
-                <div class="summary-table" id="summaryTable" style="display: none;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ວັນທີ</th>
-                                <th>ປະເພດ</th>
-                                <th>ລາຍການ</th>
-                                <th>ຈຳນວນ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="summaryBody">
-                        </tbody>
-                    </table>
-                    <button class="btn-primary export-btn" onclick="exportData()">Export CSV</button>
-                </div>
-            </div>
-        </div>
+        <!-- Floating Add Button -->
+        <button class="floating-add-btn" onclick="openAddModal()">+</button>
     </div>
-
-    <!-- Floating Add Button -->
-    <button class="floating-btn" id="floatingBtn" onclick="openAddModal()">+</button>
 
     <!-- Add Item Modal -->
-    <div class="modal" id="addModal">
+    <div id="addModal" class="modal">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeAddModal()">&times;</button>
-            <h3 id="modalTitle">ເພີ່ມລາຍການ</h3>
-            
+            <h2 class="modal-title" id="modalTitle">ເພີ່ມລາຍການ</h2>
             <div class="form-group">
-                <label class="form-label">ຊື່ລາຍການ:</label>
-                <input type="text" class="form-input" id="itemName" placeholder="ໃສ່ຊື່ລາຍການ">
+                <label>ຊື່ລາຍການ:</label>
+                <input type="text" id="itemName" placeholder="ໃສ່ຊື່ລາຍການ">
             </div>
-            
             <div class="form-group">
-                <label class="form-label">ຈຳນວນເງິນ:</label>
-                <input type="number" class="form-input" id="itemAmount" placeholder="0">
+                <label>ຈຳນວນເງິນ:</label>
+                <input type="text" id="itemAmount" placeholder="ໃສ່ຈຳນວນເງິນ" oninput="formatAmount(this)">
             </div>
-            
             <div class="form-group">
-                <label class="form-label">ວັນທີ:</label>
-                <input type="date" class="form-input" id="itemDate">
+                <label>ວັນທີ:</label>
+                <input type="date" id="itemDate">
             </div>
-            
-            <button class="btn-primary" onclick="addItem()" style="width: 100%;">ເພີ່ມ</button>
+            <button class="btn btn-primary" onclick="addItem()">ເພີ່ມ</button>
+            <button class="btn btn-close" onclick="closeModal()">ປິດ</button>
         </div>
     </div>
 
     <script>
         // Global variables
-        let currentPage = 'home';
-        let expenses = [];
-        let income = [];
-        let specialIncome = [];
+        let currentUser = null;
+        let currentTab = 'main';
+        let userData = {
+            expenses: [],
+            income: [],
+            special: [],
+            savings: []
+        };
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
-            // Show splash screen for 3 seconds
-            setTimeout(() => {
-                document.getElementById('splashScreen').classList.add('hidden');
-            }, 3000);
-
-            // Set today's date as default
+            // Set current date
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('homeDate').value = today;
+            document.getElementById('mainDate').value = today;
             document.getElementById('itemDate').value = today;
-
-            // Load data from storage or initialize
-            loadData();
-            updateHomePage();
             
-            // Add event listeners
-            setupEventListeners();
+            // Check if user is logged in
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showApp();
+                loadUserData();
+            }
         });
 
-        function setupEventListeners() {
-            // Tab navigation
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    switchTab(e.target.dataset.page);
-                });
-            });
-
-            // Date change on home page
-            document.getElementById('homeDate').addEventListener('change', updateHomePage);
+        // Login functions
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
         }
 
-        function switchTab(page) {
-            // Update active tab
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelector(`[data-page="${page}"]`).classList.add('active');
+        function showLogin() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
 
-            // Show/hide pages
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(page).classList.add('active');
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
 
-            currentPage = page;
+            if (!email || !password) {
+                alert('ກະລຸນາໃສ່ Gmail ແລະ ລະຫັດຜ່ານ');
+                return;
+            }
 
-            // Show/hide floating button based on page
-            const floatingBtn = document.getElementById('floatingBtn');
-            if (['expenses', 'income', 'special'].includes(page)) {
-                floatingBtn.style.display = 'block';
+            // Simulate login validation
+            const users = JSON.parse(sessionStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                currentUser = user;
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                showApp();
+                loadUserData();
             } else {
-                floatingBtn.style.display = 'none';
-            }
-
-            // Load page-specific data
-            if (page === 'expenses') loadExpenses();
-            else if (page === 'income') loadIncome();
-            else if (page === 'special') loadSpecial();
-        }
-
-        function loadData() {
-            // In a real app, this would load from localStorage or a database
-            // For demo purposes, we'll use empty arrays
-            expenses = [];
-            income = [];
-            specialIncome = [];
-        }
-
-        function updateHomePage() {
-            const selectedDate = document.getElementById('homeDate').value;
-            
-            // Calculate totals for selected date
-            const dayExpenses = expenses.filter(item => item.date === selectedDate);
-            const dayIncome = [...income, ...specialIncome].filter(item => item.date === selectedDate);
-            
-            const totalExpenses = dayExpenses.reduce((sum, item) => sum + item.amount, 0);
-            const totalIncome = dayIncome.reduce((sum, item) => sum + item.amount, 0);
-            
-            // Update display
-            document.getElementById('totalExpenses').textContent = `${totalExpenses.toLocaleString()} ກີບ`;
-            document.getElementById('totalIncome').textContent = `${totalIncome.toLocaleString()} ກີບ`;
-            
-            // Update status
-            const balance = totalIncome - totalExpenses;
-            const statusEmoji = document.getElementById('statusEmoji');
-            const statusMessage = document.getElementById('statusMessage');
-            
-            if (balance < 0) {
-                statusEmoji.textContent = '😠';
-                statusMessage.textContent = 'ໃຊ້ເກີນງົບ! 😠';
-                statusMessage.className = 'status-message negative';
-            } else {
-                statusEmoji.textContent = '😊';
-                statusMessage.textContent = 'ເຮັດໄດ້ດີ! 😊';
-                statusMessage.className = 'status-message positive';
+                alert('Gmail ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ');
             }
         }
 
-        function openAddModal() {
-            const modal = document.getElementById('addModal');
-            const modalTitle = document.getElementById('modalTitle');
-            
-            // Set modal title based on current page
-            if (currentPage === 'expenses') {
-                modalTitle.textContent = 'ເພີ່ມລາຍຈ່າຍ';
-            } else if (currentPage === 'income') {
-                modalTitle.textContent = 'ເພີ່ມລາຍຮັບ';
-            } else if (currentPage === 'special') {
-                modalTitle.textContent = 'ເພີ່ມລາຍຮັບພິເສດ';
+        function requestOTP() {
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (!email || !password || !confirmPassword) {
+                alert('ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ');
+                return;
             }
-            
-            modal.style.display = 'block';
+
+            if (!email.includes('@')) {
+                alert('ກະລຸນາໃສ່ Gmail ທີ່ຖືກຕ້ອງ');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('ລະຫັດຜ່ານບໍ່ຕົງກັນ');
+                return;
+            }
+
+            // Simulate OTP request
+            const otpCode = Math.floor(100000 + Math.random() * 900000);
+            window.tempOTP = otpCode.toString();
+            window.tempUser = { email, password };
+
+            document.getElementById('otpGroup').classList.remove('hidden');
+            document.getElementById('registerBtn').classList.remove('hidden');
+
+            alert(`OTP ຂອງທ່ານແມ່ນ: ${otpCode}\n(ໃນແອັບຈິງຈະສົ່ງໄປທີ່ Gmail)`);
         }
 
-        function closeAddModal() {
-            document.getElementById('addModal').style.display = 'none';
+        function register() {
+            const otpInput = document.getElementById('otpCode').value;
+
+            if (otpInput !== window.tempOTP) {
+                alert('OTP ບໍ່ຖືກຕ້ອງ');
+                return;
+            }
+
+            // Save user
+            const users = JSON.parse(sessionStorage.getItem('users') || '[]');
+            users.push(window.tempUser);
+            sessionStorage.setItem('users', JSON.stringify(users));
+
+            // Clean up temp data
+            delete window.tempOTP;
+            delete window.tempUser;
+
+            alert('ລົງທະບຽນສຳເລັດ!');
+            showLogin();
+
             // Clear form
+            document.getElementById('regEmail').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regConfirmPassword').value = '';
+            document.getElementById('otpCode').value = '';
+            document.getElementById('otpGroup').classList.add('hidden');
+            document.getElementById('registerBtn').classList.add('hidden');
+        }
+
+        function showApp() {
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
+            
+            // Set item date to today when opening modal
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('itemDate').value = today;
+            
+            updateDashboard();
+        }
+
+        function logout() {
+            currentUser = null;
+            userData = { expenses: [], income: [], special: [], savings: [] };
+            sessionStorage.removeItem('currentUser');
+            document.getElementById('appContainer').classList.add('hidden');
+            document.getElementById('loginContainer').classList.remove('hidden');
+            
+            // Clear login form
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // Tab navigation
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('tab-btn')) {
+                const tabName = e.target.getAttribute('data-tab');
+                switchTab(tabName);
+            }
+        });
+
+        function switchTab(tabName) {
+            // Update active tab
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+            // Hide all panels
+            document.querySelectorAll('.content-panel').forEach(panel => panel.classList.remove('active'));
+            
+            // Show selected panel
+            document.getElementById(`${tabName}Panel`).classList.add('active');
+
+            currentTab = tabName;
+            
+            // Show/hide floating add button
+            const addBtn = document.querySelector('.floating-add-btn');
+            if (tabName === 'main' || tabName === 'monthly') {
+                addBtn.classList.add('hidden-btn');
+            } else {
+                addBtn.classList.remove('hidden-btn');
+            }
+            
+            // Load data for the active tab
+            loadTabData(tabName);
+        }
+
+        function loadTabData(tabName) {
+            switch(tabName) {
+                case 'main':
+                    updateDashboard();
+                    break;
+                case 'expenses':
+                    loadExpensesList();
+                    break;
+                case 'income':
+                    loadIncomeList();
+                    break;
+                case 'special':
+                    loadSpecialList();
+                    break;
+                case 'savings':
+                    loadSavingsList();
+                    break;
+                case 'monthly':
+                    // Monthly summary loads on search
+                    break;
+            }
+        }
+
+        // Data management
+        function loadUserData() {
+            // Load user data from session storage if exists
+            const savedData = sessionStorage.getItem(`userData_${currentUser.email}`);
+            if (savedData) {
+                userData = JSON.parse(savedData);
+            } else {
+                userData = { expenses: [], income: [], special: [], savings: [] };
+            }
+        }
+
+        function saveUserData() {
+            // Save user data to session storage
+            if (currentUser) {
+                sessionStorage.setItem(`userData_${currentUser.email}`, JSON.stringify(userData));
+            }
+        }
+
+        // Format amount with commas
+        function formatAmount(input) {
+            let value = input.value.replace(/,/g, '');
+            if (!isNaN(value) && value !== '') {
+                input.value = Number(value).toLocaleString();
+            }
+        }
+
+        function parseAmount(amountStr) {
+            return parseInt(amountStr.replace(/,/g, '')) || 0;
+        }
+
+        function formatCurrency(amount) {
+            return amount.toLocaleString() + ' ກີບ';
+        }
+
+        // Modal functions
+        function openAddModal() {
+            // Don't open modal on main tab
+            if (currentTab === 'main' || currentTab === 'monthly') {
+                return;
+            }
+
+            const modal = document.getElementById('addModal');
+            const title = document.getElementById('modalTitle');
+            
+            switch(currentTab) {
+                case 'expenses':
+                    title.textContent = 'ເພີ່ມລາຍຈ່າຍ';
+                    break;
+                case 'income':
+                    title.textContent = 'ເພີ່ມລາຍຮັບ';
+                    break;
+                case 'special':
+                    title.textContent = 'ເພີ່ມລາຍຮັບພິເສດ';
+                    break;
+                case 'savings':
+                    title.textContent = 'ເພີ່ມເງິນເກັບ';
+                    break;
+                default:
+                    return;
+            }
+            
+            // Reset form and set today's date
             document.getElementById('itemName').value = '';
             document.getElementById('itemAmount').value = '';
+            document.getElementById('itemDate').value = new Date().toISOString().split('T')[0];
+            
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('addModal').classList.remove('show');
+            // Reset form
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemAmount').value = '';
+            document.getElementById('itemDate').value = new Date().toISOString().split('T')[0];
         }
 
         function addItem() {
             const name = document.getElementById('itemName').value;
-            const amount = parseFloat(document.getElementById('itemAmount').value);
+            const amount = parseAmount(document.getElementById('itemAmount').value);
             const date = document.getElementById('itemDate').value;
 
             if (!name || !amount || !date) {
-                alert('ກະລຸນາໃສ່ຂໍ້ມູນໃຫ້ຄົບຖ້ວນ');
+                alert('ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ');
                 return;
             }
 
@@ -846,257 +1051,387 @@
                 id: Date.now(),
                 name: name,
                 amount: amount,
-                date: date
+                date: date,
+                timestamp: new Date().toISOString()
             };
 
-            // Add to appropriate array
-            if (currentPage === 'expenses') {
-                expenses.push(item);
-                loadExpenses();
-            } else if (currentPage === 'income') {
-                income.push(item);
-                loadIncome();
-            } else if (currentPage === 'special') {
-                specialIncome.push(item);
-                loadSpecial();
+            switch(currentTab) {
+                case 'expenses':
+                    userData.expenses.push(item);
+                    break;
+                case 'income':
+                    userData.income.push(item);
+                    break;
+                case 'special':
+                    userData.special.push(item);
+                    break;
+                case 'savings':
+                    userData.savings.push(item);
+                    break;
             }
 
-            closeAddModal();
-            updateHomePage();
+            saveUserData();
+            loadTabData(currentTab);
+            updateDashboard();
+            closeModal();
         }
 
-        function deleteItem(type, id) {
-            if (confirm('ຕ້ອງການລຶບລາຍການນີ້ບໍ?')) {
-                if (type === 'expense') {
-                    expenses = expenses.filter(item => item.id !== id);
-                    loadExpenses();
-                } else if (type === 'income') {
-                    income = income.filter(item => item.id !== id);
-                    loadIncome();
-                } else if (type === 'special') {
-                    specialIncome = specialIncome.filter(item => item.id !== id);
-                    loadSpecial();
-                }
-                updateHomePage();
+        // Dashboard functions
+        function updateDashboard() {
+            const selectedDate = document.getElementById('mainDate').value;
+            const monthStart = getMonthStart(selectedDate);
+            const monthEnd = getMonthEnd(monthStart);
+
+            // Calculate totals for the period
+            const totalIncome = calculateTotal(userData.income, monthStart, monthEnd) + 
+                               calculateTotal(userData.special, monthStart, monthEnd);
+            const totalExpenses = calculateTotal(userData.expenses, monthStart, monthEnd);
+            const totalSavings = calculateTotal(userData.savings, monthStart, monthEnd);
+            const remaining = totalIncome - totalExpenses - totalSavings;
+
+            // Update display
+            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome);
+            document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
+            document.getElementById('remaining').textContent = formatCurrency(remaining);
+
+            // Update status
+            const statusAlert = document.getElementById('statusAlert');
+            const statusEmoji = document.getElementById('statusEmoji');
+            const statusText = document.getElementById('statusText');
+            const catEmoji = document.getElementById('catEmoji');
+
+            if (totalExpenses > totalIncome) {
+                statusAlert.className = 'status-alert warning';
+                statusEmoji.textContent = '😠';
+                statusText.textContent = 'ໃຊ້ເກີນງົບ!';
+                catEmoji.textContent = '😾';
+            } else {
+                statusAlert.className = 'status-alert success';
+                statusEmoji.textContent = '😊';
+                statusText.textContent = 'ເຮັດໄດ້ດີ!';
+                catEmoji.textContent = '😸';
             }
         }
 
-        function loadExpenses() {
-            const list = document.getElementById('expenseList');
-            const searchDate = document.getElementById('expenseSearchDate').value;
+        function getMonthStart(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = date.getMonth();
             
-            let filteredExpenses = expenses;
-            if (searchDate) {
-                filteredExpenses = expenses.filter(item => item.date === searchDate);
+            // Start from 25th of previous month or current month
+            if (date.getDate() >= 25) {
+                return new Date(year, month, 25);
+            } else {
+                return new Date(year, month - 1, 25);
             }
-            
-            if (filteredExpenses.length === 0) {
-                list.innerHTML = '<p style="text-align: center; color: #7f8c8d; padding: 20px;">ບໍ່ມີລາຍຈ່າຍ</p>';
+        }
+
+        function getMonthEnd(startDate) {
+            const endDate = new Date(startDate);
+            endDate.setMonth(endDate.getMonth() + 1);
+            endDate.setDate(24); // End on 24th of next month
+            return endDate;
+        }
+
+        function calculateTotal(items, startDate, endDate) {
+            return items
+                .filter(item => {
+                    const itemDate = new Date(item.date);
+                    return itemDate >= startDate && itemDate <= endDate;
+                })
+                .reduce((sum, item) => sum + item.amount, 0);
+        }
+
+        // List loading functions
+        function loadExpensesList() {
+            const container = document.getElementById('expensesList');
+            const items = userData.expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+            renderItemList(container, items);
+        }
+
+        function loadIncomeList() {
+            const container = document.getElementById('incomeList');
+            const items = userData.income.sort((a, b) => new Date(b.date) - new Date(a.date));
+            renderItemList(container, items);
+        }
+
+        function loadSpecialList() {
+            const container = document.getElementById('specialList');
+            const items = userData.special.sort((a, b) => new Date(b.date) - new Date(a.date));
+            renderItemList(container, items);
+        }
+
+        function loadSavingsList() {
+            const container = document.getElementById('savingsList');
+            const items = userData.savings.sort((a, b) => new Date(b.date) - new Date(a.date));
+            renderItemList(container, items);
+        }
+
+        function renderItemList(container, items) {
+            if (items.length === 0) {
+                container.innerHTML = '<p style="color: white; text-align: center; padding: 40px;">ບໍ່ມີຂໍ້ມູນ</p>';
                 return;
             }
-            
-            list.innerHTML = filteredExpenses.map(item => `
-                <div class="list-item">
-                    <div class="item-details">
+
+            container.innerHTML = items.map(item => `
+                <div class="item-card">
+                    <div class="item-info">
                         <div class="item-name">${item.name}</div>
                         <div class="item-date">${formatDate(item.date)}</div>
                     </div>
-                    <div style="display: flex; align-items: center;">
-                        <div class="item-amount expense">${item.amount.toLocaleString()} ກີບ</div>
-                        <button class="delete-btn" onclick="deleteItem('expense', ${item.id})">×</button>
-                    </div>
+                    <div class="item-amount">${formatCurrency(item.amount)}</div>
                 </div>
             `).join('');
         }
 
-        function loadIncome() {
-            const list = document.getElementById('incomeList');
-            const searchDate = document.getElementById('incomeSearchDate').value;
-            
-            let filteredIncome = income;
-            if (searchDate) {
-                filteredIncome = income.filter(item => item.date === searchDate);
-            }
-            
-            if (filteredIncome.length === 0) {
-                list.innerHTML = '<p style="text-align: center; color: #7f8c8d; padding: 20px;">ບໍ່ມີລາຍຮັບ</p>';
-                return;
-            }
-            
-            list.innerHTML = filteredIncome.map(item => `
-                <div class="list-item">
-                    <div class="item-details">
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-date">${formatDate(item.date)}</div>
-                    </div>
-                    <div style="display: flex; align-items: center;">
-                        <div class="item-amount income">${item.amount.toLocaleString()} ກີບ</div>
-                        <button class="delete-btn" onclick="deleteItem('income', ${item.id})">×</button>
-                    </div>
-                </div>
-            `).join('');
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('lo-LA', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
         }
 
-        function loadSpecial() {
-            const list = document.getElementById('specialList');
-            const searchDate = document.getElementById('specialSearchDate').value;
-            
-            let filteredSpecial = specialIncome;
-            if (searchDate) {
-                filteredSpecial = specialIncome.filter(item => item.date === searchDate);
-            }
-            
-            if (filteredSpecial.length === 0) {
-                list.innerHTML = '<p style="text-align: center; color: #7f8c8d; padding: 20px;">ບໍ່ມີລາຍຮັບພິເສດ</p>';
-                return;
-            }
-            
-            list.innerHTML = filteredSpecial.map(item => `
-                <div class="list-item">
-                    <div class="item-details">
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-date">${formatDate(item.date)}</div>
-                    </div>
-                    <div style="display: flex; align-items: center;">
-                        <div class="item-amount income">${item.amount.toLocaleString()} ກີບ</div>
-                        <button class="delete-btn" onclick="deleteItem('special', ${item.id})">×</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
+        // Search functions
         function searchExpenses() {
-            loadExpenses();
+            const searchDate = document.getElementById('expenseSearchDate').value;
+            if (!searchDate) {
+                loadExpensesList();
+                return;
+            }
+
+            const container = document.getElementById('expensesList');
+            const items = userData.expenses.filter(item => item.date === searchDate);
+            renderItemList(container, items);
         }
 
         function searchIncome() {
-            loadIncome();
+            const searchDate = document.getElementById('incomeSearchDate').value;
+            if (!searchDate) {
+                loadIncomeList();
+                return;
+            }
+
+            const container = document.getElementById('incomeList');
+            const items = userData.income.filter(item => item.date === searchDate);
+            renderItemList(container, items);
         }
 
         function searchSpecial() {
-            loadSpecial();
+            const searchDate = document.getElementById('specialSearchDate').value;
+            if (!searchDate) {
+                loadSpecialList();
+                return;
+            }
+
+            const container = document.getElementById('specialList');
+            const items = userData.special.filter(item => item.date === searchDate);
+            renderItemList(container, items);
         }
 
-        function generateSummary() {
-            const selectedMonth = document.getElementById('summaryMonth').value;
-            
-            if (!selectedMonth) {
+        function searchSavings() {
+            const searchDate = document.getElementById('savingsSearchDate').value;
+            if (!searchDate) {
+                loadSavingsList();
+                return;
+            }
+
+            const container = document.getElementById('savingsList');
+            const items = userData.savings.filter(item => item.date === searchDate);
+            renderItemList(container, items);
+        }
+
+        function searchMonthly() {
+            const monthInput = document.getElementById('monthlySearchDate').value;
+            if (!monthInput) {
                 alert('ກະລຸນາເລືອກເດືອນ');
                 return;
             }
-            
-            const [year, month] = selectedMonth.split('-');
-            
-            // Filter all items for the selected month
-            const monthExpenses = expenses.filter(item => {
+
+            const [year, month] = monthInput.split('-');
+            const startDate = new Date(year, parseInt(month) - 1, 25);
+            const endDate = new Date(year, parseInt(month), 24);
+
+            // Calculate summary data
+            const expensesInPeriod = userData.expenses.filter(item => {
                 const itemDate = new Date(item.date);
-                return itemDate.getFullYear() == year && itemDate.getMonth() + 1 == month;
+                return itemDate >= startDate && itemDate <= endDate;
             });
-            
-            const monthIncome = income.filter(item => {
+
+            const incomeInPeriod = userData.income.filter(item => {
                 const itemDate = new Date(item.date);
-                return itemDate.getFullYear() == year && itemDate.getMonth() + 1 == month;
+                return itemDate >= startDate && itemDate <= endDate;
             });
-            
-            const monthSpecial = specialIncome.filter(item => {
+
+            const specialInPeriod = userData.special.filter(item => {
                 const itemDate = new Date(item.date);
-                return itemDate.getFullYear() == year && itemDate.getMonth() + 1 == month;
+                return itemDate >= startDate && itemDate <= endDate;
             });
-            
-            // Combine and sort all items by date
-            const allItems = [
-                ...monthExpenses.map(item => ({ ...item, type: 'ລາຍຈ່າຍ', class: 'expense' })),
-                ...monthIncome.map(item => ({ ...item, type: 'ລາຍຮັບ', class: 'income' })),
-                ...monthSpecial.map(item => ({ ...item, type: 'ລາຍຮັບພິເສດ', class: 'income' }))
-            ].sort((a, b) => new Date(a.date) - new Date(b.date));
-            
-            const summaryBody = document.getElementById('summaryBody');
-            const summaryTable = document.getElementById('summaryTable');
-            
-            if (allItems.length === 0) {
-                summaryBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #7f8c8d;">ບໍ່ມີຂໍ້ມູນໃນເດືອນນີ້</td></tr>';
-            } else {
-                summaryBody.innerHTML = allItems.map(item => `
-                    <tr>
-                        <td>${formatDate(item.date)}</td>
-                        <td>${item.type}</td>
-                        <td>${item.name}</td>
-                        <td class="${item.class}">${item.amount.toLocaleString()} ກີບ</td>
-                    </tr>
-                `).join('');
-            }
-            
-            summaryTable.style.display = 'block';
-            
-            // Store current summary data for export
-            window.currentSummaryData = allItems;
+
+            const savingsInPeriod = userData.savings.filter(item => {
+                const itemDate = new Date(item.date);
+                return itemDate >= startDate && itemDate <= endDate;
+            });
+
+            const expensesTotal = expensesInPeriod.reduce((sum, item) => sum + item.amount, 0);
+            const incomeTotal = incomeInPeriod.reduce((sum, item) => sum + item.amount, 0);
+            const specialTotal = specialInPeriod.reduce((sum, item) => sum + item.amount, 0);
+            const savingsTotal = savingsInPeriod.reduce((sum, item) => sum + item.amount, 0);
+
+            // Store data for export
+            window.exportData_period = { startDate, endDate };
+
+            // Render summary table
+            const monthlyData = document.getElementById('monthlyData');
+            monthlyData.innerHTML = `
+                <div class="table-row">
+                    <div class="table-cell">ລາຍຮັບ</div>
+                    <div class="table-cell">${incomeInPeriod.length}</div>
+                    <div class="table-cell">${formatCurrency(incomeTotal)}</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">ລາຍຮັບພິເສດ</div>
+                    <div class="table-cell">${specialInPeriod.length}</div>
+                    <div class="table-cell">${formatCurrency(specialTotal)}</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">ລາຍຈ່າຍ</div>
+                    <div class="table-cell">${expensesInPeriod.length}</div>
+                    <div class="table-cell">${formatCurrency(expensesTotal)}</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">ເງິນເກັບ</div>
+                    <div class="table-cell">${savingsInPeriod.length}</div>
+                    <div class="table-cell">${formatCurrency(savingsTotal)}</div>
+                </div>
+                <div class="table-row" style="background: rgba(255, 255, 255, 0.2); font-weight: bold;">
+                    <div class="table-cell">ຍັງເຫຼືອ</div>
+                    <div class="table-cell">-</div>
+                    <div class="table-cell">${formatCurrency(incomeTotal + specialTotal - expensesTotal - savingsTotal)}</div>
+                </div>
+            `;
+
+            document.getElementById('monthlySummary').classList.remove('hidden');
+            document.getElementById('exportBtn').classList.remove('hidden');
         }
 
         function exportData() {
-            if (!window.currentSummaryData || window.currentSummaryData.length === 0) {
+            if (!window.exportData_period) {
+                alert('ກະລຸນາຄົ້ນຫາຂໍ້ມູນກ່ອນ Export');
+                return;
+            }
+
+            const { startDate, endDate } = window.exportData_period;
+            const monthInput = document.getElementById('monthlySearchDate').value;
+
+            // Collect all data for the period
+            const allItems = [
+                ...userData.expenses.filter(item => {
+                    const itemDate = new Date(item.date);
+                    return itemDate >= startDate && itemDate <= endDate;
+                }).map(item => ({...item, type: 'ລາຍຈ່າຍ'})),
+                
+                ...userData.income.filter(item => {
+                    const itemDate = new Date(item.date);
+                    return itemDate >= startDate && itemDate <= endDate;
+                }).map(item => ({...item, type: 'ລາຍຮັບ'})),
+                
+                ...userData.special.filter(item => {
+                    const itemDate = new Date(item.date);
+                    return itemDate >= startDate && itemDate <= endDate;
+                }).map(item => ({...item, type: 'ລາຍຮັບພິເສດ'})),
+                
+                ...userData.savings.filter(item => {
+                    const itemDate = new Date(item.date);
+                    return itemDate >= startDate && itemDate <= endDate;
+                }).map(item => ({...item, type: 'ເງິນເກັບ'}))
+            ].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            if (allItems.length === 0) {
                 alert('ບໍ່ມີຂໍ້ມູນສຳລັບ Export');
                 return;
             }
 
             // Create CSV content
             const csvContent = [
-                ['ວັນທີ', 'ປະເພດ', 'ລາຍການ', 'ຈຳນວນ'],
-                ...window.currentSummaryData.map(item => [
-                    formatDate(item.date),
+                ['ວັນທີ', 'ປະເພດ', 'ລາຍການ', 'ຈຳນວນເງິນ'],
+                ...allItems.map(item => [
+                    item.date,
                     item.type,
-                    item.name,
+                    `"${item.name}"`, // Quote name to handle commas
                     item.amount
                 ])
             ].map(row => row.join(',')).join('\n');
 
-            // Create and download file
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            // Download CSV
+            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
             link.setAttribute('href', url);
-            link.setAttribute('download', `ສະຫຼຸບລາຍຮັບລາຍຈ່າຍ_${new Date().toISOString().slice(0, 10)}.csv`);
+            link.setAttribute('download', `ສະຫຼຸບລາຍຮັບລາຍຈ່າຍ_${monthInput}.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
 
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const months = [
-                'ມັງກອນ', 'ກຸມພາ', 'ມີນາ', 'ເມສາ', 'ພຶດສະພາ', 'ມິຖຸນາ',
-                'ກໍລະກົດ', 'ສິງຫາ', 'ກັນຍາ', 'ຕຸລາ', 'ພະຈິກ', 'ທັນວາ'
-            ];
-            return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        // Update dashboard when main date changes
+        document.getElementById('mainDate').addEventListener('change', updateDashboard);
+
+        // Add logout functionality
+        function addLogoutButton() {
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'btn btn-secondary';
+            logoutBtn.textContent = 'ອອກ';
+            logoutBtn.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                width: 60px;
+                height: 35px;
+                font-size: 0.8rem;
+                background: rgba(255, 255, 255, 0.2);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 15px;
+                z-index: 1000;
+            `;
+            logoutBtn.onclick = logout;
+            document.body.appendChild(logoutBtn);
         }
 
-        // Close modal when clicking outside
-        document.getElementById('addModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeAddModal();
-            }
-        });
+        // Initialize logout button when app loads
+        setTimeout(addLogoutButton, 100);
 
-        // Sample data for demonstration
-        setTimeout(() => {
-            // Add some sample data
-            expenses.push(
-                { id: 1, name: 'ຊື້ເຂົ້າ', amount: 50000, date: '2024-08-21' },
-                { id: 2, name: 'ນ້ຳມັນລົດ', amount: 100000, date: '2024-08-21' },
-                { id: 3, name: 'ຄ່າໄຟ', amount: 200000, date: '2024-08-20' }
-            );
-            
-            income.push(
-                { id: 4, name: 'ເງິນເດືອນ', amount: 3000000, date: '2024-08-21' },
-                { id: 5, name: 'ຂາຍເຄື່ອງ', amount: 500000, date: '2024-08-20' }
-            );
-            
-            specialIncome.push(
-                { id: 6, name: 'ໂບນັດ', amount: 1000000, date: '2024-08-21' }
-            );
-            
-            updateHomePage();
-        }, 3500);
-    </script>
-</body>
-</html>
+        // Add demo data function
+        function addDemoData() {
+            const today = new Date();
+            const demoData = {
+                expenses: [
+                    { id: 1, name: 'ອາຫານເຊົ້າ', amount: 25000, date: today.toISOString().split('T')[0] },
+                    { id: 2, name: 'ນໍ້າມັນລົດ', amount: 50000, date: new Date(today.getTime() - 24*60*60*1000).toISOString().split('T')[0] },
+                    { id: 3, name: 'ຊື້ເສື້ອຜ້າ', amount: 120000, date: new Date(today.getTime() - 2*24*60*60*1000).toISOString().split('T')[0] }
+                ],
+                income: [
+                    { id: 4, name: 'ເງິນເດືອນ', amount: 2000000, date: today.toISOString().split('T')[0] },
+                    { id: 5, name: 'ຂາຍຂອງ', amount: 150000, date: new Date(today.getTime() - 24*60*60*1000).toISOString().split('T')[0] }
+                ],
+                special: [
+                    { id: 6, name: 'ໂບນັດ', amount: 500000, date: today.toISOString().split('T')[0] }
+                ],
+                savings: [
+                    { id: 7, name: 'ເກັບເງິນປີໃໝ່', amount: 200000, date: today.toISOString().split('T')[0] }
+                ]
+            };
+
+            // Only add demo data if no data exists
+            if (userData.expenses.length === 0) {
+                userData = demoData;
+                saveUserData();
+                updateDashboard();
+                loadTabData(currentTab);
+            }
+        }
+
+        // Load demo data after 1 second
+        setTimeout(addDemoData, 1000);
