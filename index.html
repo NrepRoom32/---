@@ -14,15 +14,47 @@
 
         body {
             font-family: 'Noto Sans Lao', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            width: 100vw;
-            max-width: 414px;
-            margin: 0 auto;
             overflow-x: hidden;
-            position: relative;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-logo {
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        .splash-subtitle {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.8);
+            animation: fadeInUp 1s ease 0.5s both;
         }
 
         @keyframes gradientShift {
@@ -31,102 +63,81 @@
             100% { background-position: 0% 50%; }
         }
 
-        .splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #1abc9c);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            animation: fadeOut 3s ease-out forwards;
-        }
-
-        @keyframes fadeOut {
-            0%, 70% { opacity: 1; }
-            100% { opacity: 0; pointer-events: none; }
-        }
-
-        .splash-logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: bounce 2s ease-in-out infinite;
-        }
-
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-30px,0); }
+            70% { transform: translate3d(0,-15px,0); }
+            90% { transform: translate3d(0,-4px,0); }
         }
 
-        .container {
-            width: 100%;
-            min-height: 100vh;
-            padding: 0;
-            position: relative;
-            animation: slideIn 1s ease-out 3s both;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* Login Screen */
         .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-form {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            padding: 40px 30px;
-            margin: 50px 20px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.8s ease;
         }
 
         .login-title {
-            font-size: 2rem;
-            font-weight: 700;
             color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
             margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .form-group {
             margin-bottom: 20px;
-            text-align: left;
         }
 
-        .form-group label {
-            display: block;
+        .form-label {
             color: white;
-            font-weight: 500;
+            font-size: 0.9rem;
             margin-bottom: 8px;
-            font-size: 1rem;
+            display: block;
         }
 
-        .form-group input {
+        .form-input {
             width: 100%;
-            padding: 15px 20px;
+            padding: 15px;
             border: none;
-            border-radius: 25px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.2);
             color: white;
             font-size: 1rem;
-            backdrop-filter: blur(10px);
+            font-family: 'Noto Sans Lao', sans-serif;
             transition: all 0.3s ease;
         }
 
-        .form-group input::placeholder {
+        .form-input::placeholder {
             color: rgba(255, 255, 255, 0.7);
         }
 
-        .form-group input:focus {
+        .form-input:focus {
             outline: none;
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.02);
@@ -136,125 +147,135 @@
             width: 100%;
             padding: 15px;
             border: none;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Noto Sans Lao', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 10px;
         }
 
         .btn-primary {
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
             color: white;
+            font-weight: 600;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 107, 157, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
         .btn-secondary {
             background: rgba(255, 255, 255, 0.2);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-weight: 500;
         }
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
         }
 
-        .tab-navigation {
+        /* Main App Container */
+        .app-container {
+            display: none;
+            position: relative;
+            min-height: 100vh;
+            padding-top: 120px;
+            padding-bottom: 30px;
+        }
+
+        .app-container.show {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 8px;
+            gap: 15px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
+            padding: 15px;
             border-radius: 50px;
-            padding: 10px;
             z-index: 1000;
-            width: 90%;
-            max-width: 380px;
-            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
 
-        .tab-btn {
-            width: 50px;
-            height: 50px;
+        .nav-tab {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             border: none;
             background: rgba(255, 255, 255, 0.2);
             color: white;
-            font-size: 0.8rem;
-            font-weight: 500;
+            font-family: 'Noto Sans Lao', sans-serif;
+            font-size: 0.7rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            line-height: 1.1;
+            position: relative;
+            overflow: hidden;
         }
 
-        .tab-btn.active {
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
+        .nav-tab.active {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
             transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .tab-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.3);
+        .nav-tab:hover {
             transform: scale(1.05);
         }
 
-        .content-area {
-            margin-top: 100px;
-            padding: 20px;
-            min-height: calc(100vh - 120px);
+        /* Content Area */
+        .content {
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .content-panel {
-            display: none;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        .content-panel.active {
-            display: block;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .main-dashboard {
+        .content-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
             border-radius: 25px;
             padding: 30px;
             margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.6s ease;
         }
 
-        .date-selector {
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Dashboard Specific Styles */
+        .dashboard-header {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .date-selector input {
+        .date-picker {
             background: rgba(255, 255, 255, 0.2);
             border: none;
-            border-radius: 15px;
-            padding: 10px 20px;
+            border-radius: 12px;
+            padding: 10px 15px;
             color: white;
-            font-size: 1rem;
+            font-family: 'Noto Sans Lao', sans-serif;
+            margin-bottom: 20px;
         }
 
-        .cat-container {
+        .dashboard-content {
             display: flex;
             align-items: center;
             gap: 20px;
@@ -262,151 +283,92 @@
         }
 
         .cat-emoji {
+            width: 120px;
+            height: 120px;
             font-size: 4rem;
-            animation: catBounce 3s ease-in-out infinite;
-        }
-
-        @keyframes catBounce {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-5px) rotate(-2deg); }
-            50% { transform: translateY(0) rotate(0deg); }
-            75% { transform: translateY(-3px) rotate(2deg); }
-        }
-
-        .summary-info {
-            flex: 1;
-        }
-
-        .summary-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            justify-content: center;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .dashboard-info {
+            flex: 1;
+            color: white;
+        }
+
+        .balance-item {
             margin-bottom: 15px;
-            color: white;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
         }
 
-        .summary-label {
-            font-weight: 500;
-            font-size: 1.1rem;
-        }
-
-        .summary-amount {
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .status-alert {
-            text-align: center;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .status-alert.success {
-            background: rgba(46, 204, 113, 0.2);
-            color: #27ae60;
-            border: 2px solid rgba(46, 204, 113, 0.3);
-        }
-
-        .status-alert.warning {
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-            border: 2px solid rgba(231, 76, 60, 0.3);
-        }
-
-        .expense-page {
-            background: rgba(255, 107, 157, 0.15);
-        }
-
-        .income-page {
-            background: rgba(46, 204, 113, 0.15);
-        }
-
-        .special-income-page {
-            background: rgba(155, 89, 182, 0.15);
-        }
-
-        .monthly-page {
-            background: rgba(52, 152, 219, 0.15);
-        }
-
-        .savings-page {
-            background: rgba(241, 196, 15, 0.15);
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            gap: 15px;
-        }
-
-        .date-search {
-            display: flex;
-            gap: 10px;
-            flex: 1;
-        }
-
-        .date-search input {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 15px;
-            padding: 10px 15px;
-            color: white;
+        .balance-label {
             font-size: 0.9rem;
-            flex: 1;
+            opacity: 0.8;
+            margin-bottom: 5px;
         }
 
-        .btn-search {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 15px;
-            padding: 10px 15px;
-            color: white;
-            cursor: pointer;
+        .balance-amount {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
             font-weight: 500;
-            transition: all 0.3s ease;
         }
 
-        .btn-search:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
+        .status-success {
+            background: linear-gradient(45deg, #00d2d3, #54a0ff);
+            color: white;
         }
 
-        .floating-add-btn {
+        .status-warning {
+            background: linear-gradient(45deg, #ff6b6b, #ff9f43);
+            color: white;
+        }
+
+        /* Form Styles */
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .add-button {
             position: fixed;
             bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
+            right: 30px;
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
             border: none;
             color: white;
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 2rem;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            z-index: 999;
+            animation: pulse 2s infinite;
         }
 
-        .floating-add-btn.hidden-btn {
-            display: none;
+        .add-button:hover {
+            transform: scale(1.1);
         }
 
-        .floating-add-btn:hover {
-            transform: translateX(-50%) scale(1.1);
-            box-shadow: 0 15px 30px rgba(255, 107, 157, 0.6);
-        }
-
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -415,15 +377,105 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
             z-index: 2000;
             animation: fadeIn 0.3s ease;
         }
 
         .modal.show {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Transaction List */
+        .transaction-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            color: white;
+            animation: slideIn 0.5s ease;
+        }
+
+        .transaction-info h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .transaction-date {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .transaction-amount {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-white { color: white; }
+        .mb-20 { margin-bottom: 20px; }
+        .mt-20 { margin-top: 20px; }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeIn {
@@ -431,1007 +483,718 @@
             to { opacity: 1; }
         }
 
-        .modal-content {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 30px;
-            width: 90%;
-            max-width: 350px;
-            animation: modalSlide 0.3s ease;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
-        @keyframes modalSlide {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
         }
 
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #333;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .modal .form-group input {
-            background: rgba(0, 0, 0, 0.05);
-            color: #333;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .modal .form-group input::placeholder {
-            color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal .btn {
-            color: white;
-            margin-top: 10px;
-        }
-
-        .btn-close {
-            background: rgba(0, 0, 0, 0.1);
-            color: #333;
-        }
-
-        .item-list {
-            margin-top: 20px;
-        }
-
-        .item-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .item-card:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .item-info {
-            flex: 1;
-        }
-
-        .item-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: white;
-            margin-bottom: 5px;
-        }
-
-        .item-date {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .item-amount {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: white;
-        }
-
-        .summary-table {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-
-        .table-row {
-            display: flex;
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .table-row:last-child {
-            border-bottom: none;
-        }
-
-        .table-header {
-            background: rgba(255, 255, 255, 0.2);
-            font-weight: 700;
-        }
-
-        .table-cell {
-            flex: 1;
-            color: white;
-            text-align: center;
-        }
-
+        /* Export Button */
         .export-btn {
+            background: linear-gradient(45deg, #48dbfb, #0abde3);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-family: 'Noto Sans Lao', sans-serif;
+            cursor: pointer;
             margin-top: 20px;
-            background: linear-gradient(45deg, #3498db, #2980b9);
+            transition: all 0.3s ease;
         }
 
         .export-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .hidden {
-            display: none !important;
+        /* Number formatting */
+        .amount {
+            font-family: 'Courier New', monospace;
         }
 
-        .form-group input[type="date"] {
-            color-scheme: dark;
+        /* Responsive */
+        @media (max-width: 480px) {
+            .nav-tabs {
+                gap: 8px;
+                padding: 10px;
+            }
+            
+            .nav-tab {
+                width: 45px;
+                height: 45px;
+                font-size: 0.6rem;
+            }
+            
+            .content {
+                padding: 0 15px;
+            }
+            
+            .dashboard-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .cat-emoji {
+                width: 100px;
+                height: 100px;
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Splash Screen -->
-    <div class="splash-screen">
-        <div class="splash-logo">💰 ການເງິນ</div>
-        <div style="color: white; margin-top: 20px; font-size: 1.2rem;">ແອັບຄິດໄລ່ລາຍຮັບລາຍຈ່າຍ</div>
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-logo">💰 ແອັບຄິດໄລ່</div>
+        <div class="splash-subtitle">ລາຍຮັບ ລາຍຈ່າຍ ຂອງທ່ານ</div>
     </div>
 
     <!-- Login Container -->
-    <div id="loginContainer" class="container">
-        <div class="login-container">
-            <h1 class="login-title">ເຂົ້າສູ່ລະບົບ</h1>
+    <div class="login-container" id="loginContainer">
+        <div class="login-form">
+            <h2 class="login-title">ເຂົ້າສູ່ລະບົບ</h2>
+            
             <div id="loginForm">
                 <div class="form-group">
-                    <label>Gmail:</label>
-                    <input type="email" id="loginEmail" placeholder="ໃສ່ Gmail ຂອງທ່ານ">
+                    <label class="form-label">Gmail</label>
+                    <input type="email" class="form-input" id="loginEmail" placeholder="example@gmail.com">
                 </div>
                 <div class="form-group">
-                    <label>ລະຫັດຜ່ານ:</label>
-                    <input type="password" id="loginPassword" placeholder="ໃສ່ລະຫັດຜ່ານ">
+                    <label class="form-label">ລະຫັດຜ່ານ</label>
+                    <input type="password" class="form-input" id="loginPassword" placeholder="ກະລຸນາໃສ່ລະຫັດຜ່ານ">
                 </div>
                 <button class="btn btn-primary" onclick="login()">ເຂົ້າສູ່ລະບົບ</button>
-                <button class="btn btn-secondary" onclick="showRegister()">ລົງທະບຽນ</button>
+                <button class="btn btn-secondary" onclick="showRegister()">ລົງທະບຽນໃໝ່</button>
             </div>
-            <div id="registerForm" class="hidden">
+
+            <div id="registerForm" style="display: none;">
                 <div class="form-group">
-                    <label>Gmail:</label>
-                    <input type="email" id="regEmail" placeholder="ໃສ່ Gmail ຂອງທ່ານ">
-                </div>
-                <div class="form-group">
-                    <label>ລະຫັດຜ່ານ:</label>
-                    <input type="password" id="regPassword" placeholder="ສ້າງລະຫັດຜ່ານ">
+                    <label class="form-label">Gmail</label>
+                    <input type="email" class="form-input" id="regEmail" placeholder="example@gmail.com">
                 </div>
                 <div class="form-group">
-                    <label>ຢືນຢັນລະຫັດຜ່ານ:</label>
-                    <input type="password" id="regConfirmPassword" placeholder="ຢືນຢັນລະຫັດຜ່ານ">
+                    <label class="form-label">ລະຫັດຜ່ານ</label>
+                    <input type="password" class="form-input" id="regPassword" placeholder="ກະລຸນາໃສ່ລະຫັດຜ່ານ">
                 </div>
-                <button class="btn btn-secondary" onclick="requestOTP()">ຂໍ OTP</button>
-                <div class="form-group hidden" id="otpGroup">
-                    <label>OTP:</label>
-                    <input type="text" id="otpCode" placeholder="ໃສ່ລະຫັດ OTP">
+                <div class="form-group">
+                    <label class="form-label">ຢືນຢັນລະຫັດຜ່ານ</label>
+                    <input type="password" class="form-input" id="regConfirmPassword" placeholder="ຢືນຢັນລະຫັດຜ່ານອີກຄັ້ງ">
                 </div>
-                <button class="btn btn-primary hidden" id="registerBtn" onclick="register()">ລົງທະບຽນ</button>
+                <button class="btn btn-primary" onclick="sendOTP()">ຂໍ OTP</button>
+                <div class="form-group" id="otpGroup" style="display: none;">
+                    <label class="form-label">OTP Code</label>
+                    <input type="text" class="form-input" id="otpCode" placeholder="ໃສ່ລະຫັດ OTP">
+                    <button class="btn btn-primary" onclick="verifyOTP()">ຢືນຢັນ OTP</button>
+                </div>
                 <button class="btn btn-secondary" onclick="showLogin()">ກັບໄປເຂົ້າສູ່ລະບົບ</button>
             </div>
         </div>
     </div>
 
-    <!-- Main App Container -->
-    <div id="appContainer" class="container hidden">
-        <!-- Tab Navigation -->
-        <div class="tab-navigation">
-            <button class="tab-btn active" data-tab="main">ໜ້າ<br>ຫຼັກ</button>
-            <button class="tab-btn" data-tab="expenses">ລາຍ<br>ຈ່າຍ</button>
-            <button class="tab-btn" data-tab="income">ລາຍ<br>ຮັບ</button>
-            <button class="tab-btn" data-tab="special">ພິ<br>ເສດ</button>
-            <button class="tab-btn" data-tab="monthly">ສະຫຼຸບ<br>ເດືອນ</button>
-            <button class="tab-btn" data-tab="savings">ເງິນ<br>ເກັບ</button>
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showPage('dashboard')">ໜ້າ<br>ຫຼັກ</button>
+            <button class="nav-tab" onclick="showPage('expenses')">ລາຍ<br>ຈ່າຍ</button>
+            <button class="nav-tab" onclick="showPage('income')">ລາຍ<br>ຮັບ</button>
+            <button class="nav-tab" onclick="showPage('special')">ລາຍຮັບ<br>ພິເສດ</button>
+            <button class="nav-tab" onclick="showPage('summary')">ສະຫຼຸບ<br>ເດືອນ</button>
+            <button class="nav-tab" onclick="showPage('savings')">ເງິນ<br>ເກັບ</button>
         </div>
 
-        <!-- Content Area -->
-        <div class="content-area">
-            <!-- Main Dashboard -->
-            <div id="mainPanel" class="content-panel active">
-                <div class="main-dashboard">
-                    <div class="date-selector">
-                        <input type="date" id="mainDate" value="">
+        <div class="content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <div class="content-card">
+                    <div class="dashboard-header">
+                        <input type="date" class="date-picker" id="dashboardDate">
                     </div>
-                    <div class="cat-container">
-                        <div class="cat-emoji" id="catEmoji">🐱</div>
-                        <div class="summary-info">
-                            <div class="summary-item">
-                                <span class="summary-label">ລາຍຮັບ:</span>
-                                <span class="summary-amount" id="totalIncome">0 ກີບ</span>
+                    
+                    <div class="dashboard-content">
+                        <div class="cat-emoji" id="catEmoji">😸</div>
+                        <div class="dashboard-info">
+                            <div class="balance-item">
+                                <div class="balance-label">ລາຍຮັບ</div>
+                                <div class="balance-amount amount" id="totalIncome">0 ₭</div>
                             </div>
-                            <div class="summary-item">
-                                <span class="summary-label">ລາຍຈ່າຍ:</span>
-                                <span class="summary-amount" id="totalExpenses">0 ກີບ</span>
+                            <div class="balance-item">
+                                <div class="balance-label">ລາຍຈ່າຍ</div>
+                                <div class="balance-amount amount" id="totalExpenses">0 ₭</div>
                             </div>
-                            <div class="summary-item">
-                                <span class="summary-label">ຍັງເຫຼືອ:</span>
-                                <span class="summary-amount" id="remaining">0 ກີບ</span>
+                            <div class="balance-item">
+                                <div class="balance-label">ຍອດເຫຼືອ</div>
+                                <div class="balance-amount amount" id="balance">0 ₭</div>
                             </div>
                         </div>
                     </div>
-                    <div id="statusAlert" class="status-alert success">
-                        <span id="statusEmoji">😊</span> <span id="statusText">ເຮັດໄດ້ດີ!</span>
+                    
+                    <div class="status-message" id="statusMessage">
+                        <span id="statusEmoji">😊</span>
+                        <span id="statusText">ເລີ່ມຕົ້ນການຄິດໄລ່ຂອງທ່ານ!</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Expenses Panel -->
-            <div id="expensesPanel" class="content-panel expense-page">
-                <div class="main-dashboard">
-                    <div class="page-header">
-                        <div class="date-search">
-                            <input type="date" id="expenseSearchDate">
-                            <button class="btn-search" onclick="searchExpenses()">ຄົ້ນຫາ</button>
+            <!-- Expenses Page -->
+            <div id="expenses" class="page">
+                <div class="content-card">
+                    <h2 class="text-white text-center mb-20">ລາຍການລາຍຈ່າຍ</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="date" class="form-input" id="expenseSearchDate">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-secondary" onclick="searchTransactions('expenses')">ຄົ້ນຫາ</button>
                         </div>
                     </div>
-                    <div id="expensesList" class="item-list">
-                        <!-- Expense items will be populated here -->
+                    <div class="transaction-list" id="expensesList"></div>
+                </div>
+                <button class="add-button" onclick="showAddModal('expense')">+</button>
+            </div>
+
+            <!-- Income Page -->
+            <div id="income" class="page">
+                <div class="content-card">
+                    <h2 class="text-white text-center mb-20">ລາຍການລາຍຮັບ</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="date" class="form-input" id="incomeSearchDate">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-secondary" onclick="searchTransactions('income')">ຄົ້ນຫາ</button>
+                        </div>
                     </div>
+                    <div class="transaction-list" id="incomeList"></div>
+                </div>
+                <button class="add-button" onclick="showAddModal('income')">+</button>
+            </div>
+
+            <!-- Special Income Page -->
+            <div id="special" class="page">
+                <div class="content-card">
+                    <h2 class="text-white text-center mb-20">ລາຍຮັບພິເສດ</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="date" class="form-input" id="specialSearchDate">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-secondary" onclick="searchTransactions('special')">ຄົ້ນຫາ</button>
+                        </div>
+                    </div>
+                    <div class="transaction-list" id="specialList"></div>
+                </div>
+                <button class="add-button" onclick="showAddModal('special')">+</button>
+            </div>
+
+            <!-- Summary Page -->
+            <div id="summary" class="page">
+                <div class="content-card">
+                    <h2 class="text-white text-center mb-20">ສະຫຼຸບລາຍການປະຈຳເດືອນ</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="month" class="form-input" id="summaryMonth">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-secondary" onclick="generateSummary()">ສະຫຼຸບ</button>
+                        </div>
+                    </div>
+                    <div id="summaryContent"></div>
+                    <button class="export-btn" onclick="exportSummary()">Export ເປັນ CSV</button>
                 </div>
             </div>
 
-            <!-- Income Panel -->
-            <div id="incomePanel" class="content-panel income-page">
-                <div class="main-dashboard">
-                    <div class="page-header">
-                        <div class="date-search">
-                            <input type="date" id="incomeSearchDate">
-                            <button class="btn-search" onclick="searchIncome()">ຄົ້ນຫາ</button>
+            <!-- Savings Page -->
+            <div id="savings" class="page">
+                <div class="content-card">
+                    <h2 class="text-white text-center mb-20">ເງິນເກັບ</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="date" class="form-input" id="savingsSearchDate">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-secondary" onclick="searchTransactions('savings')">ຄົ້ນຫາ</button>
                         </div>
                     </div>
-                    <div id="incomeList" class="item-list">
-                        <!-- Income items will be populated here -->
-                    </div>
+                    <div class="transaction-list" id="savingsList"></div>
                 </div>
-            </div>
-
-            <!-- Special Income Panel -->
-            <div id="specialPanel" class="content-panel special-income-page">
-                <div class="main-dashboard">
-                    <div class="page-header">
-                        <div class="date-search">
-                            <input type="date" id="specialSearchDate">
-                            <button class="btn-search" onclick="searchSpecial()">ຄົ້ນຫາ</button>
-                        </div>
-                    </div>
-                    <div id="specialList" class="item-list">
-                        <!-- Special income items will be populated here -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Monthly Summary Panel -->
-            <div id="monthlyPanel" class="content-panel monthly-page">
-                <div class="main-dashboard">
-                    <div class="page-header">
-                        <div class="date-search">
-                            <input type="month" id="monthlySearchDate">
-                            <button class="btn-search" onclick="searchMonthly()">ຄົ້ນຫາ</button>
-                        </div>
-                    </div>
-                    <div id="monthlySummary" class="summary-table hidden">
-                        <div class="table-row table-header">
-                            <div class="table-cell">ປະເພດ</div>
-                            <div class="table-cell">ຈຳນວນ</div>
-                            <div class="table-cell">ເງິນ</div>
-                        </div>
-                        <div id="monthlyData"></div>
-                    </div>
-                    <button class="btn export-btn hidden" id="exportBtn" onclick="exportData()">Export ຂໍ້ມູນ</button>
-                </div>
-            </div>
-
-            <!-- Savings Panel -->
-            <div id="savingsPanel" class="content-panel savings-page">
-                <div class="main-dashboard">
-                    <div class="page-header">
-                        <div class="date-search">
-                            <input type="date" id="savingsSearchDate">
-                            <button class="btn-search" onclick="searchSavings()">ຄົ້ນຫາ</button>
-                        </div>
-                    </div>
-                    <div id="savingsList" class="item-list">
-                        <!-- Savings items will be populated here -->
-                    </div>
-                </div>
+                <button class="add-button" onclick="showAddModal('savings')">+</button>
             </div>
         </div>
-
-        <!-- Floating Add Button -->
-        <button class="floating-add-btn" onclick="openAddModal()">+</button>
     </div>
 
-    <!-- Add Item Modal -->
-    <div id="addModal" class="modal">
+    <!-- Add Transaction Modal -->
+    <div class="modal" id="addModal">
         <div class="modal-content">
-            <h2 class="modal-title" id="modalTitle">ເພີ່ມລາຍການ</h2>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h3 class="modal-title" id="modalTitle">ເພີ່ມລາຍການ</h3>
+            
             <div class="form-group">
-                <label>ຊື່ລາຍການ:</label>
-                <input type="text" id="itemName" placeholder="ໃສ່ຊື່ລາຍການ">
+                <label class="form-label">ຊື່ລາຍການ</label>
+                <input type="text" class="form-input" id="transactionName" placeholder="ໃສ່ຊື່ລາຍການ">
             </div>
+            
             <div class="form-group">
-                <label>ຈຳນວນເງິນ:</label>
-                <input type="text" id="itemAmount" placeholder="ໃສ່ຈຳນວນເງິນ" oninput="formatAmount(this)">
+                <label class="form-label">ຈຳນວນເງິນ</label>
+                <input type="text" class="form-input" id="transactionAmount" placeholder="0" oninput="formatAmount(this)">
             </div>
+            
             <div class="form-group">
-                <label>ວັນທີ:</label>
-                <input type="date" id="itemDate">
+                <label class="form-label">ວັນທີ</label>
+                <input type="date" class="form-input" id="transactionDate">
             </div>
-            <button class="btn btn-primary" onclick="addItem()">ເພີ່ມ</button>
-            <button class="btn btn-close" onclick="closeModal()">ປິດ</button>
+            
+            <button class="btn btn-primary" onclick="addTransaction()">ເພີ່ມລາຍການ</button>
         </div>
     </div>
 
     <script>
         // Global variables
         let currentUser = null;
-        let currentTab = 'main';
-        let userData = {
-            expenses: [],
-            income: [],
-            special: [],
-            savings: []
-        };
+        let currentTransactionType = '';
+        let userData = {};
+        let generatedOTP = '';
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
-            // Set current date
+            // Show splash screen for 3 seconds
+            setTimeout(() => {
+                document.getElementById('splashScreen').classList.add('hidden');
+            }, 3000);
+
+            // Set today's date
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('mainDate').value = today;
-            document.getElementById('itemDate').value = today;
-            
-            // Check if user is logged in
-            const savedUser = sessionStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                showApp();
-                loadUserData();
-            }
+            document.getElementById('dashboardDate').value = today;
+            document.getElementById('transactionDate').value = today;
         });
 
-        // Login functions
+        // Authentication functions
         function showRegister() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
         }
 
         function showLogin() {
-            document.getElementById('registerForm').classList.add('hidden');
-            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
         }
 
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!email || !password) {
-                alert('ກະລຸນາໃສ່ Gmail ແລະ ລະຫັດຜ່ານ');
-                return;
-            }
-
-            // Simulate login validation
-            const users = JSON.parse(sessionStorage.getItem('users') || '[]');
-            const user = users.find(u => u.email === email && u.password === password);
-
-            if (user) {
-                currentUser = user;
-                sessionStorage.setItem('currentUser', JSON.stringify(user));
-                showApp();
-                loadUserData();
-            } else {
-                alert('Gmail ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ');
-            }
-        }
-
-        function requestOTP() {
+        function sendOTP() {
             const email = document.getElementById('regEmail').value;
             const password = document.getElementById('regPassword').value;
             const confirmPassword = document.getElementById('regConfirmPassword').value;
 
             if (!email || !password || !confirmPassword) {
-                alert('ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ');
-                return;
-            }
-
-            if (!email.includes('@')) {
-                alert('ກະລຸນາໃສ່ Gmail ທີ່ຖືກຕ້ອງ');
+                alert('ກະລຸນາຕື່ມຂໍ້ມູນໃຫ້ຄົບ');
                 return;
             }
 
             if (password !== confirmPassword) {
-                alert('ລະຫັດຜ່ານບໍ່ຕົງກັນ');
+                alert('ລະຫັດຜ່ານບໍ່ກົງກັນ');
                 return;
             }
 
-            // Simulate OTP request
-            const otpCode = Math.floor(100000 + Math.random() * 900000);
-            window.tempOTP = otpCode.toString();
-            window.tempUser = { email, password };
-
-            document.getElementById('otpGroup').classList.remove('hidden');
-            document.getElementById('registerBtn').classList.remove('hidden');
-
-            alert(`OTP ຂອງທ່ານແມ່ນ: ${otpCode}\n(ໃນແອັບຈິງຈະສົ່ງໄປທີ່ Gmail)`);
+            // Generate fake OTP
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            alert(`OTP ຂອງທ່ານແມ່ນ: ${generatedOTP} (ໃນການນຳໃຊ້ຈິງຈະຖືກສົ່ງໄປທີ່ Gmail)`);
+            
+            document.getElementById('otpGroup').style.display = 'block';
         }
 
-        function register() {
-            const otpInput = document.getElementById('otpCode').value;
-
-            if (otpInput !== window.tempOTP) {
+        function verifyOTP() {
+            const enteredOTP = document.getElementById('otpCode').value;
+            
+            if (enteredOTP === generatedOTP) {
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+                
+                // Save user data (in real app, this would be sent to server)
+                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                users[email] = {
+                    password: password,
+                    data: {
+                        expenses: [],
+                        income: [],
+                        special: [],
+                        savings: []
+                    }
+                };
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                alert('ລົງທະບຽນສຳເລັດ!');
+                showLogin();
+            } else {
                 alert('OTP ບໍ່ຖືກຕ້ອງ');
+            }
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('ກະລຸນາໃສ່ Gmail ແລະ ລະຫັດຶ້ານ');
                 return;
             }
 
-            // Save user
-            const users = JSON.parse(sessionStorage.getItem('users') || '[]');
-            users.push(window.tempUser);
-            sessionStorage.setItem('users', JSON.stringify(users));
-
-            // Clean up temp data
-            delete window.tempOTP;
-            delete window.tempUser;
-
-            alert('ລົງທະບຽນສຳເລັດ!');
-            showLogin();
-
-            // Clear form
-            document.getElementById('regEmail').value = '';
-            document.getElementById('regPassword').value = '';
-            document.getElementById('regConfirmPassword').value = '';
-            document.getElementById('otpCode').value = '';
-            document.getElementById('otpGroup').classList.add('hidden');
-            document.getElementById('registerBtn').classList.add('hidden');
-        }
-
-        function showApp() {
-            document.getElementById('loginContainer').classList.add('hidden');
-            document.getElementById('appContainer').classList.remove('hidden');
+            // Check user credentials (in real app, this would be server validation)
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
             
-            // Set item date to today when opening modal
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('itemDate').value = today;
-            
-            updateDashboard();
-        }
-
-        function logout() {
-            currentUser = null;
-            userData = { expenses: [], income: [], special: [], savings: [] };
-            sessionStorage.removeItem('currentUser');
-            document.getElementById('appContainer').classList.add('hidden');
-            document.getElementById('loginContainer').classList.remove('hidden');
-            
-            // Clear login form
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
-        }
-
-        // Tab navigation
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('tab-btn')) {
-                const tabName = e.target.getAttribute('data-tab');
-                switchTab(tabName);
-            }
-        });
-
-        function switchTab(tabName) {
-            // Update active tab
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-
-            // Hide all panels
-            document.querySelectorAll('.content-panel').forEach(panel => panel.classList.remove('active'));
-            
-            // Show selected panel
-            document.getElementById(`${tabName}Panel`).classList.add('active');
-
-            currentTab = tabName;
-            
-            // Show/hide floating add button
-            const addBtn = document.querySelector('.floating-add-btn');
-            if (tabName === 'main' || tabName === 'monthly') {
-                addBtn.classList.add('hidden-btn');
+            if (users[email] && users[email].password === password) {
+                currentUser = email;
+                userData = users[email].data;
+                
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('appContainer').classList.add('show');
+                
+                updateDashboard();
+                loadTransactions();
             } else {
-                addBtn.classList.remove('hidden-btn');
+                alert('Gmail ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ');
             }
+        }
+
+        // Navigation functions
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
             
-            // Load data for the active tab
-            loadTabData(tabName);
-        }
-
-        function loadTabData(tabName) {
-            switch(tabName) {
-                case 'main':
-                    updateDashboard();
-                    break;
-                case 'expenses':
-                    loadExpensesList();
-                    break;
-                case 'income':
-                    loadIncomeList();
-                    break;
-                case 'special':
-                    loadSpecialList();
-                    break;
-                case 'savings':
-                    loadSavingsList();
-                    break;
-                case 'monthly':
-                    // Monthly summary loads on search
-                    break;
+            // Remove active from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Add active to clicked tab
+            event.target.classList.add('active');
+            
+            // Load data for the page
+            if (pageId !== 'dashboard') {
+                loadTransactions(pageId);
             }
-        }
-
-        // Data management
-        function loadUserData() {
-            // Load user data from session storage if exists
-            const savedData = sessionStorage.getItem(`userData_${currentUser.email}`);
-            if (savedData) {
-                userData = JSON.parse(savedData);
-            } else {
-                userData = { expenses: [], income: [], special: [], savings: [] };
-            }
-        }
-
-        function saveUserData() {
-            // Save user data to session storage
-            if (currentUser) {
-                sessionStorage.setItem(`userData_${currentUser.email}`, JSON.stringify(userData));
-            }
-        }
-
-        // Format amount with commas
-        function formatAmount(input) {
-            let value = input.value.replace(/,/g, '');
-            if (!isNaN(value) && value !== '') {
-                input.value = Number(value).toLocaleString();
-            }
-        }
-
-        function parseAmount(amountStr) {
-            return parseInt(amountStr.replace(/,/g, '')) || 0;
-        }
-
-        function formatCurrency(amount) {
-            return amount.toLocaleString() + ' ກີບ';
         }
 
         // Modal functions
-        function openAddModal() {
-            // Don't open modal on main tab
-            if (currentTab === 'main' || currentTab === 'monthly') {
-                return;
-            }
-
-            const modal = document.getElementById('addModal');
-            const title = document.getElementById('modalTitle');
+        function showAddModal(type) {
+            currentTransactionType = type;
+            const titles = {
+                'expense': 'ເພີ່ມລາຍຈ່າຍ',
+                'income': 'ເພີ່ມລາຍຮັບ',
+                'special': 'ເພີ່ມລາຍຮັບພິເສດ',
+                'savings': 'ເພີ່ມເງິນເກັບ'
+            };
             
-            switch(currentTab) {
-                case 'expenses':
-                    title.textContent = 'ເພີ່ມລາຍຈ່າຍ';
-                    break;
-                case 'income':
-                    title.textContent = 'ເພີ່ມລາຍຮັບ';
-                    break;
-                case 'special':
-                    title.textContent = 'ເພີ່ມລາຍຮັບພິເສດ';
-                    break;
-                case 'savings':
-                    title.textContent = 'ເພີ່ມເງິນເກັບ';
-                    break;
-                default:
-                    return;
-            }
+            document.getElementById('modalTitle').textContent = titles[type];
+            document.getElementById('addModal').classList.add('show');
             
-            // Reset form and set today's date
-            document.getElementById('itemName').value = '';
-            document.getElementById('itemAmount').value = '';
-            document.getElementById('itemDate').value = new Date().toISOString().split('T')[0];
-            
-            modal.classList.add('show');
+            // Clear form
+            document.getElementById('transactionName').value = '';
+            document.getElementById('transactionAmount').value = '';
+            document.getElementById('transactionDate').value = new Date().toISOString().split('T')[0];
         }
 
         function closeModal() {
             document.getElementById('addModal').classList.remove('show');
-            // Reset form
-            document.getElementById('itemName').value = '';
-            document.getElementById('itemAmount').value = '';
-            document.getElementById('itemDate').value = new Date().toISOString().split('T')[0];
         }
 
-        function addItem() {
-            const name = document.getElementById('itemName').value;
-            const amount = parseAmount(document.getElementById('itemAmount').value);
-            const date = document.getElementById('itemDate').value;
-
-            if (!name || !amount || !date) {
-                alert('ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ');
+        // Transaction functions
+        function addTransaction() {
+            const name = document.getElementById('transactionName').value;
+            const amountStr = document.getElementById('transactionAmount').value;
+            const date = document.getElementById('transactionDate').value;
+            
+            if (!name || !amountStr || !date) {
+                alert('ກະລຸນາຕື່ມຂໍ້ມູນໃຫ້ຄົບ');
                 return;
             }
-
-            const item = {
+            
+            const amount = parseFloat(amountStr.replace(/,/g, ''));
+            
+            const transaction = {
                 id: Date.now(),
                 name: name,
                 amount: amount,
                 date: date,
-                timestamp: new Date().toISOString()
+                type: currentTransactionType
             };
-
-            switch(currentTab) {
-                case 'expenses':
-                    userData.expenses.push(item);
-                    break;
-                case 'income':
-                    userData.income.push(item);
-                    break;
-                case 'special':
-                    userData.special.push(item);
-                    break;
-                case 'savings':
-                    userData.savings.push(item);
-                    break;
+            
+            // Add to userData
+            if (!userData[currentTransactionType + 's']) {
+                userData[currentTransactionType + 's'] = [];
             }
-
-            saveUserData();
-            loadTabData(currentTab);
-            updateDashboard();
+            userData[currentTransactionType + 's'].push(transaction);
+            
+            // Save to localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            users[currentUser].data = userData;
+            localStorage.setItem('users', JSON.stringify(users));
+            
             closeModal();
+            updateDashboard();
+            loadTransactions(currentTransactionType + 's');
+            
+            alert('ເພີ່ມລາຍການສຳເລັດ!');
         }
 
-        // Dashboard functions
+        function formatAmount(input) {
+            let value = input.value.replace(/,/g, '');
+            if (value && !isNaN(value)) {
+                input.value = parseFloat(value).toLocaleString();
+            }
+        }
+
+        function loadTransactions(type = '') {
+            const types = type ? [type] : ['expenses', 'income', 'special', 'savings'];
+            
+            types.forEach(t => {
+                const listElement = document.getElementById(t.replace('s', '') + (t === 'expenses' ? 'sList' : 'List'));
+                if (listElement) {
+                    listElement.innerHTML = '';
+                    
+                    const transactions = userData[t] || [];
+                    transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    
+                    transactions.forEach(transaction => {
+                        const item = document.createElement('div');
+                        item.className = 'transaction-item';
+                        item.innerHTML = `
+                            <div class="transaction-info">
+                                <h4>${transaction.name}</h4>
+                                <div class="transaction-date">${formatDate(transaction.date)}</div>
+                            </div>
+                            <div class="transaction-amount amount">${formatCurrency(transaction.amount)}</div>
+                        `;
+                        listElement.appendChild(item);
+                    });
+                }
+            });
+        }
+
+        function searchTransactions(type) {
+            const searchDate = document.getElementById(type + 'SearchDate').value;
+            if (!searchDate) {
+                loadTransactions(type);
+                return;
+            }
+            
+            const listElement = document.getElementById(type.replace('expenses', 'expensesList').replace('income', 'incomeList').replace('special', 'specialList').replace('savings', 'savingsList'));
+            listElement.innerHTML = '';
+            
+            const transactions = userData[type] || [];
+            const filtered = transactions.filter(t => t.date === searchDate);
+            
+            filtered.forEach(transaction => {
+                const item = document.createElement('div');
+                item.className = 'transaction-item';
+                item.innerHTML = `
+                    <div class="transaction-info">
+                        <h4>${transaction.name}</h4>
+                        <div class="transaction-date">${formatDate(transaction.date)}</div>
+                    </div>
+                    <div class="transaction-amount amount">${formatCurrency(transaction.amount)}</div>
+                `;
+                listElement.appendChild(item);
+            });
+        }
+
         function updateDashboard() {
-            const selectedDate = document.getElementById('mainDate').value;
-            const monthStart = getMonthStart(selectedDate);
-            const monthEnd = getMonthEnd(monthStart);
-
+            const selectedDate = document.getElementById('dashboardDate').value;
+            const selectedMonth = selectedDate.substring(0, 7); // YYYY-MM format
+            
+            // Calculate period from 25th to 25th
+            const [year, month] = selectedMonth.split('-');
+            const periodStart = `${year}-${month.padStart(2, '0')}-25`;
+            const nextMonth = parseInt(month) === 12 ? `${parseInt(year) + 1}-01` : `${year}-${(parseInt(month) + 1).toString().padStart(2, '0')}`;
+            const periodEnd = `${nextMonth}-25`;
+            
+            let totalIncome = 0;
+            let totalExpenses = 0;
+            let totalSpecial = 0;
+            let totalSavings = 0;
+            
             // Calculate totals for the period
-            const totalIncome = calculateTotal(userData.income, monthStart, monthEnd) + 
-                               calculateTotal(userData.special, monthStart, monthEnd);
-            const totalExpenses = calculateTotal(userData.expenses, monthStart, monthEnd);
-            const totalSavings = calculateTotal(userData.savings, monthStart, monthEnd);
-            const remaining = totalIncome - totalExpenses - totalSavings;
-
+            ['income', 'expenses', 'special', 'savings'].forEach(type => {
+                const transactions = userData[type] || [];
+                transactions.forEach(t => {
+                    if (t.date >= periodStart && t.date < periodEnd) {
+                        switch(type) {
+                            case 'income':
+                                totalIncome += t.amount;
+                                break;
+                            case 'expenses':
+                                totalExpenses += t.amount;
+                                break;
+                            case 'special':
+                                totalSpecial += t.amount;
+                                break;
+                            case 'savings':
+                                totalSavings += t.amount;
+                                break;
+                        }
+                    }
+                });
+            });
+            
+            const totalIncomeWithSpecial = totalIncome + totalSpecial;
+            const totalSpent = totalExpenses + totalSavings;
+            const balance = totalIncomeWithSpecial - totalSpent;
+            
             // Update display
-            document.getElementById('totalIncome').textContent = formatCurrency(totalIncome);
-            document.getElementById('totalExpenses').textContent = formatCurrency(totalExpenses);
-            document.getElementById('remaining').textContent = formatCurrency(remaining);
-
-            // Update status
-            const statusAlert = document.getElementById('statusAlert');
+            document.getElementById('totalIncome').textContent = formatCurrency(totalIncomeWithSpecial);
+            document.getElementById('totalExpenses').textContent = formatCurrency(totalSpent);
+            document.getElementById('balance').textContent = formatCurrency(balance);
+            
+            // Update status message and cat emoji
+            const statusMessage = document.getElementById('statusMessage');
             const statusEmoji = document.getElementById('statusEmoji');
             const statusText = document.getElementById('statusText');
             const catEmoji = document.getElementById('catEmoji');
-
-            if (totalExpenses > totalIncome) {
-                statusAlert.className = 'status-alert warning';
-                statusEmoji.textContent = '😠';
-                statusText.textContent = 'ໃຊ້ເກີນງົບ!';
-                catEmoji.textContent = '😾';
-            } else {
-                statusAlert.className = 'status-alert success';
-                statusEmoji.textContent = '😊';
-                statusText.textContent = 'ເຮັດໄດ້ດີ!';
-                catEmoji.textContent = '😸';
-            }
-        }
-
-        function getMonthStart(dateStr) {
-            const date = new Date(dateStr);
-            const year = date.getFullYear();
-            const month = date.getMonth();
             
-            // Start from 25th of previous month or current month
-            if (date.getDate() >= 25) {
-                return new Date(year, month, 25);
+            if (balance < 0) {
+                statusMessage.className = 'status-message status-warning';
+                statusEmoji.textContent = '😠';
+                statusText.textContent = 'ໃຊ້ເງິນເກີນງົບແລ້ວ!';
+                catEmoji.textContent = '😾';
+            } else if (balance > 0) {
+                statusMessage.className = 'status-message status-success';
+                statusEmoji.textContent = '😊';
+                statusText.textContent = 'ເຮັດໄດ້ດີຫຼາຍ!';
+                catEmoji.textContent = '😸';
             } else {
-                return new Date(year, month - 1, 25);
+                statusMessage.className = 'status-message status-success';
+                statusEmoji.textContent = '😐';
+                statusText.textContent = 'ພໍດີ';
+                catEmoji.textContent = '😺';
             }
         }
 
-        function getMonthEnd(startDate) {
-            const endDate = new Date(startDate);
-            endDate.setMonth(endDate.getMonth() + 1);
-            endDate.setDate(24); // End on 24th of next month
-            return endDate;
-        }
-
-        function calculateTotal(items, startDate, endDate) {
-            return items
-                .filter(item => {
-                    const itemDate = new Date(item.date);
-                    return itemDate >= startDate && itemDate <= endDate;
-                })
-                .reduce((sum, item) => sum + item.amount, 0);
-        }
-
-        // List loading functions
-        function loadExpensesList() {
-            const container = document.getElementById('expensesList');
-            const items = userData.expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
-            renderItemList(container, items);
-        }
-
-        function loadIncomeList() {
-            const container = document.getElementById('incomeList');
-            const items = userData.income.sort((a, b) => new Date(b.date) - new Date(a.date));
-            renderItemList(container, items);
-        }
-
-        function loadSpecialList() {
-            const container = document.getElementById('specialList');
-            const items = userData.special.sort((a, b) => new Date(b.date) - new Date(a.date));
-            renderItemList(container, items);
-        }
-
-        function loadSavingsList() {
-            const container = document.getElementById('savingsList');
-            const items = userData.savings.sort((a, b) => new Date(b.date) - new Date(a.date));
-            renderItemList(container, items);
-        }
-
-        function renderItemList(container, items) {
-            if (items.length === 0) {
-                container.innerHTML = '<p style="color: white; text-align: center; padding: 40px;">ບໍ່ມີຂໍ້ມູນ</p>';
-                return;
-            }
-
-            container.innerHTML = items.map(item => `
-                <div class="item-card">
-                    <div class="item-info">
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-date">${formatDate(item.date)}</div>
-                    </div>
-                    <div class="item-amount">${formatCurrency(item.amount)}</div>
-                </div>
-            `).join('');
-        }
-
-        function formatDate(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('lo-LA', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        }
-
-        // Search functions
-        function searchExpenses() {
-            const searchDate = document.getElementById('expenseSearchDate').value;
-            if (!searchDate) {
-                loadExpensesList();
-                return;
-            }
-
-            const container = document.getElementById('expensesList');
-            const items = userData.expenses.filter(item => item.date === searchDate);
-            renderItemList(container, items);
-        }
-
-        function searchIncome() {
-            const searchDate = document.getElementById('incomeSearchDate').value;
-            if (!searchDate) {
-                loadIncomeList();
-                return;
-            }
-
-            const container = document.getElementById('incomeList');
-            const items = userData.income.filter(item => item.date === searchDate);
-            renderItemList(container, items);
-        }
-
-        function searchSpecial() {
-            const searchDate = document.getElementById('specialSearchDate').value;
-            if (!searchDate) {
-                loadSpecialList();
-                return;
-            }
-
-            const container = document.getElementById('specialList');
-            const items = userData.special.filter(item => item.date === searchDate);
-            renderItemList(container, items);
-        }
-
-        function searchSavings() {
-            const searchDate = document.getElementById('savingsSearchDate').value;
-            if (!searchDate) {
-                loadSavingsList();
-                return;
-            }
-
-            const container = document.getElementById('savingsList');
-            const items = userData.savings.filter(item => item.date === searchDate);
-            renderItemList(container, items);
-        }
-
-        function searchMonthly() {
-            const monthInput = document.getElementById('monthlySearchDate').value;
-            if (!monthInput) {
+        function generateSummary() {
+            const summaryMonth = document.getElementById('summaryMonth').value;
+            if (!summaryMonth) {
                 alert('ກະລຸນາເລືອກເດືອນ');
                 return;
             }
-
-            const [year, month] = monthInput.split('-');
-            const startDate = new Date(year, parseInt(month) - 1, 25);
-            const endDate = new Date(year, parseInt(month), 24);
-
-            // Calculate summary data
-            const expensesInPeriod = userData.expenses.filter(item => {
-                const itemDate = new Date(item.date);
-                return itemDate >= startDate && itemDate <= endDate;
-            });
-
-            const incomeInPeriod = userData.income.filter(item => {
-                const itemDate = new Date(item.date);
-                return itemDate >= startDate && itemDate <= endDate;
-            });
-
-            const specialInPeriod = userData.special.filter(item => {
-                const itemDate = new Date(item.date);
-                return itemDate >= startDate && itemDate <= endDate;
-            });
-
-            const savingsInPeriod = userData.savings.filter(item => {
-                const itemDate = new Date(item.date);
-                return itemDate >= startDate && itemDate <= endDate;
-            });
-
-            const expensesTotal = expensesInPeriod.reduce((sum, item) => sum + item.amount, 0);
-            const incomeTotal = incomeInPeriod.reduce((sum, item) => sum + item.amount, 0);
-            const specialTotal = specialInPeriod.reduce((sum, item) => sum + item.amount, 0);
-            const savingsTotal = savingsInPeriod.reduce((sum, item) => sum + item.amount, 0);
-
-            // Store data for export
-            window.exportData_period = { startDate, endDate };
-
-            // Render summary table
-            const monthlyData = document.getElementById('monthlyData');
-            monthlyData.innerHTML = `
-                <div class="table-row">
-                    <div class="table-cell">ລາຍຮັບ</div>
-                    <div class="table-cell">${incomeInPeriod.length}</div>
-                    <div class="table-cell">${formatCurrency(incomeTotal)}</div>
-                </div>
-                <div class="table-row">
-                    <div class="table-cell">ລາຍຮັບພິເສດ</div>
-                    <div class="table-cell">${specialInPeriod.length}</div>
-                    <div class="table-cell">${formatCurrency(specialTotal)}</div>
-                </div>
-                <div class="table-row">
-                    <div class="table-cell">ລາຍຈ່າຍ</div>
-                    <div class="table-cell">${expensesInPeriod.length}</div>
-                    <div class="table-cell">${formatCurrency(expensesTotal)}</div>
-                </div>
-                <div class="table-row">
-                    <div class="table-cell">ເງິນເກັບ</div>
-                    <div class="table-cell">${savingsInPeriod.length}</div>
-                    <div class="table-cell">${formatCurrency(savingsTotal)}</div>
-                </div>
-                <div class="table-row" style="background: rgba(255, 255, 255, 0.2); font-weight: bold;">
-                    <div class="table-cell">ຍັງເຫຼືອ</div>
-                    <div class="table-cell">-</div>
-                    <div class="table-cell">${formatCurrency(incomeTotal + specialTotal - expensesTotal - savingsTotal)}</div>
-                </div>
+            
+            const [year, month] = summaryMonth.split('-');
+            const periodStart = `${year}-${month.padStart(2, '0')}-25`;
+            const nextMonth = parseInt(month) === 12 ? `${parseInt(year) + 1}-01` : `${year}-${(parseInt(month) + 1).toString().padStart(2, '0')}`;
+            const periodEnd = `${nextMonth}-25`;
+            
+            const summaryContent = document.getElementById('summaryContent');
+            summaryContent.innerHTML = '';
+            
+            let html = `
+                <div style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-top: 20px;">
+                    <h3 style="color: white; text-align: center; margin-bottom: 20px;">ສະຫຼຸບປະຈຳເດືອນ ${month}/${year}</h3>
             `;
-
-            document.getElementById('monthlySummary').classList.remove('hidden');
-            document.getElementById('exportBtn').classList.remove('hidden');
+            
+            ['income', 'expenses', 'special', 'savings'].forEach(type => {
+                const title = {
+                    'income': 'ລາຍຮັບ',
+                    'expenses': 'ລາຍຈ່າຍ', 
+                    'special': 'ລາຍຮັບພິເສດ',
+                    'savings': 'ເງິນເກັບ'
+                }[type];
+                
+                html += `<h4 style="color: white; margin: 15px 0;">${title}</h4>`;
+                
+                const transactions = (userData[type] || []).filter(t => 
+                    t.date >= periodStart && t.date < periodEnd
+                );
+                
+                if (transactions.length > 0) {
+                    transactions.forEach(t => {
+                        html += `
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; color: rgba(255,255,255,0.8); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <span>${t.name} (${formatDate(t.date)})</span>
+                                <span class="amount">${formatCurrency(t.amount)}</span>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html += `<p style="color: rgba(255,255,255,0.6); font-style: italic;">ບໍ່ມີລາຍການ</p>`;
+                }
+            });
+            
+            html += '</div>';
+            summaryContent.innerHTML = html;
         }
 
-        function exportData() {
-            if (!window.exportData_period) {
-                alert('ກະລຸນາຄົ້ນຫາຂໍ້ມູນກ່ອນ Export');
+        function exportSummary() {
+            const summaryMonth = document.getElementById('summaryMonth').value;
+            if (!summaryMonth) {
+                alert('ກະລຸນາເລືອກເດືອນກ່ອນ Export');
                 return;
             }
-
-            const { startDate, endDate } = window.exportData_period;
-            const monthInput = document.getElementById('monthlySearchDate').value;
-
-            // Collect all data for the period
-            const allItems = [
-                ...userData.expenses.filter(item => {
-                    const itemDate = new Date(item.date);
-                    return itemDate >= startDate && itemDate <= endDate;
-                }).map(item => ({...item, type: 'ລາຍຈ່າຍ'})),
+            
+            // Generate CSV content
+            let csvContent = 'ປະເພດ,ຊື່ລາຍການ,ວັນທີ,ຈຳນວນເງິນ\n';
+            
+            const [year, month] = summaryMonth.split('-');
+            const periodStart = `${year}-${month.padStart(2, '0')}-25`;
+            const nextMonth = parseInt(month) === 12 ? `${parseInt(year) + 1}-01` : `${year}-${(parseInt(month) + 1).toString().padStart(2, '0')}`;
+            const periodEnd = `${nextMonth}-25`;
+            
+            ['income', 'expenses', 'special', 'savings'].forEach(type => {
+                const title = {
+                    'income': 'ລາຍຮັບ',
+                    'expenses': 'ລາຍຈ່າຍ',
+                    'special': 'ລາຍຮັບພິເສດ', 
+                    'savings': 'ເງິນເກັບ'
+                }[type];
                 
-                ...userData.income.filter(item => {
-                    const itemDate = new Date(item.date);
-                    return itemDate >= startDate && itemDate <= endDate;
-                }).map(item => ({...item, type: 'ລາຍຮັບ'})),
+                const transactions = (userData[type] || []).filter(t => 
+                    t.date >= periodStart && t.date < periodEnd
+                );
                 
-                ...userData.special.filter(item => {
-                    const itemDate = new Date(item.date);
-                    return itemDate >= startDate && itemDate <= endDate;
-                }).map(item => ({...item, type: 'ລາຍຮັບພິເສດ'})),
-                
-                ...userData.savings.filter(item => {
-                    const itemDate = new Date(item.date);
-                    return itemDate >= startDate && itemDate <= endDate;
-                }).map(item => ({...item, type: 'ເງິນເກັບ'}))
-            ].sort((a, b) => new Date(a.date) - new Date(b.date));
-
-            if (allItems.length === 0) {
-                alert('ບໍ່ມີຂໍ້ມູນສຳລັບ Export');
-                return;
-            }
-
-            // Create CSV content
-            const csvContent = [
-                ['ວັນທີ', 'ປະເພດ', 'ລາຍການ', 'ຈຳນວນເງິນ'],
-                ...allItems.map(item => [
-                    item.date,
-                    item.type,
-                    `"${item.name}"`, // Quote name to handle commas
-                    item.amount
-                ])
-            ].map(row => row.join(',')).join('\n');
-
+                transactions.forEach(t => {
+                    csvContent += `${title},"${t.name}",${t.date},${t.amount}\n`;
+                });
+            });
+            
             // Download CSV
-            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
             link.setAttribute('href', url);
-            link.setAttribute('download', `ສະຫຼຸບລາຍຮັບລາຍຈ່າຍ_${monthInput}.csv`);
+            link.setAttribute('download', `ສະຫຼຸບ-${summaryMonth}.csv`);
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
 
-        // Update dashboard when main date changes
-        document.getElementById('mainDate').addEventListener('change', updateDashboard);
-
-        // Add logout functionality
-        function addLogoutButton() {
-            const logoutBtn = document.createElement('button');
-            logoutBtn.className = 'btn btn-secondary';
-            logoutBtn.textContent = 'ອອກ';
-            logoutBtn.style.cssText = `
-                position: fixed;
-                top: 80px;
-                right: 20px;
-                width: 60px;
-                height: 35px;
-                font-size: 0.8rem;
-                background: rgba(255, 255, 255, 0.2);
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                border-radius: 15px;
-                z-index: 1000;
-            `;
-            logoutBtn.onclick = logout;
-            document.body.appendChild(logoutBtn);
+        // Utility functions
+        function formatCurrency(amount) {
+            return amount.toLocaleString() + ' ₭';
         }
 
-        // Initialize logout button when app loads
-        setTimeout(addLogoutButton, 100);
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('lo-LA', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+        }
 
-        // Add demo data function
-        function addDemoData() {
-            const today = new Date();
-            const demoData = {
-                expenses: [
-                    { id: 1, name: 'ອາຫານເຊົ້າ', amount: 25000, date: today.toISOString().split('T')[0] },
-                    { id: 2, name: 'ນໍ້າມັນລົດ', amount: 50000, date: new Date(today.getTime() - 24*60*60*1000).toISOString().split('T')[0] },
-                    { id: 3, name: 'ຊື້ເສື້ອຜ້າ', amount: 120000, date: new Date(today.getTime() - 2*24*60*60*1000).toISOString().split('T')[0] }
-                ],
-                income: [
-                    { id: 4, name: 'ເງິນເດືອນ', amount: 2000000, date: today.toISOString().split('T')[0] },
-                    { id: 5, name: 'ຂາຍຂອງ', amount: 150000, date: new Date(today.getTime() - 24*60*60*1000).toISOString().split('T')[0] }
-                ],
-                special: [
-                    { id: 6, name: 'ໂບນັດ', amount: 500000, date: today.toISOString().split('T')[0] }
-                ],
-                savings: [
-                    { id: 7, name: 'ເກັບເງິນປີໃໝ່', amount: 200000, date: today.toISOString().split('T')[0] }
-                ]
-            };
+        // Event listeners
+        document.getElementById('dashboardDate').addEventListener('change', updateDashboard);
 
-            // Only add demo data if no data exists
-            if (userData.expenses.length === 0) {
-                userData = demoData;
-                saveUserData();
-                updateDashboard();
-                loadTabData(currentTab);
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('addModal');
+            if (event.target === modal) {
+                closeModal();
             }
-        }
-
-        // Load demo data after 1 second
-        setTimeout(addDemoData, 1000);
+        });
+    </script>
+</body>
+</html>
